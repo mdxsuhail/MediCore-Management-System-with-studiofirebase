@@ -30,7 +30,8 @@ import {
   LifeBuoy,
   HeartPulse,
   Pill,
-  Map
+  Map,
+  BedDouble,
 } from 'lucide-react';
 import { AppHeader } from '@/components/app-header';
 
@@ -41,6 +42,7 @@ const patientNav = [
   { href: '/medications', label: 'Medications', icon: Pill },
   { href: '/vitals', label: 'Vitals', icon: HeartPulse },
   { href: '/health-risk', label: 'Health Risk', icon: ShieldCheck },
+  { href: '/book-bed', label: 'Book a Bed', icon: BedDouble },
 ];
 
 const doctorNav = [

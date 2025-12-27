@@ -1,5 +1,5 @@
 
-import type { Doctor, Appointment, MedicalDocument, BedInfo, Ambulance, Medication, VitalSign, VitalsLogEntry } from './types';
+import type { Doctor, Appointment, MedicalDocument, BedInfo, Ambulance, Medication, VitalSign, VitalsLogEntry, HospitalBedInfo } from './types';
 
 export const doctors: Doctor[] = [
   {
@@ -237,6 +237,33 @@ export const bedAvailability: BedInfo[] = [
     { type: 'General', total: 150, occupied: 125, available: 25 },
     { type: 'Ward', total: 50, occupied: 40, available: 10 },
 ];
+
+export const hospitalBedAvailability: HospitalBedInfo[] = [
+    {
+      hospitalName: 'Unity General Hospital',
+      beds: [
+        { type: 'ICU', total: 20, occupied: 18, available: 2 },
+        { type: 'General', total: 150, occupied: 125, available: 25 },
+        { type: 'Ward', total: 50, occupied: 40, available: 10 },
+      ],
+    },
+    {
+      hospitalName: 'City Central Hospital',
+      beds: [
+        { type: 'ICU', total: 25, occupied: 22, available: 3 },
+        { type: 'General', total: 200, occupied: 180, available: 20 },
+        { type: 'Ward', total: 75, occupied: 65, available: 10 },
+      ],
+    },
+    {
+        hospitalName: 'St. Jude Children\'s Hospital',
+        beds: [
+          { type: 'ICU', total: 30, occupied: 25, available: 5 },
+          { type: 'General', total: 100, occupied: 80, available: 20 },
+          { type: 'Ward', total: 40, occupied: 30, available: 10 },
+        ],
+      },
+  ];
 
 export const ambulanceAvailability: Ambulance[] = [
     { id: '1', vehicleNumber: 'AMB-001', driverName: 'Mike Ross', status: 'available', location: { lat: 12.9716, lng: 77.5946 } },

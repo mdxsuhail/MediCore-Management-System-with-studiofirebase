@@ -52,6 +52,11 @@ export type BedInfo = {
   available: number;
 };
 
+export type HospitalBedInfo = {
+    hospitalName: string;
+    beds: BedInfo[];
+};
+
 export type Ambulance = {
   id: string;
   vehicleNumber: string;
