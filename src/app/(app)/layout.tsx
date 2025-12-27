@@ -80,7 +80,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       navItems = patientNav;
       const currentPage = patientNav.find(item => item.href === pathname);
       breadcrumb = [{ label: "Home", href: "/dashboard" }];
-      if (currentPage && currentPage.href !== '/dashboard') {
+      if (pathname === '/profile') {
+        breadcrumb.push({ label: 'Profile' });
+      } else if (currentPage && currentPage.href !== '/dashboard') {
         breadcrumb.push({ label: currentPage.label });
       } else if (pathname !== '/dashboard') {
         // Fallback for pages not in nav, e.g. a sub-page
