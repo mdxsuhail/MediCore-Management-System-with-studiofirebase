@@ -93,7 +93,12 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       breadcrumb = [{ label: "Home", href: "/dashboard" }];
       if (pathname === '/profile') {
         breadcrumb.push({ label: 'Profile' });
-      } else if (currentPage && currentPage.href !== '/dashboard') {
+      } else if (pathname === '/billing') {
+        breadcrumb.push({ label: 'Billing' });
+      } else if (pathname === '/settings') {
+        breadcrumb.push({ label: 'Settings' });
+      }
+      else if (currentPage && currentPage.href !== '/dashboard') {
         breadcrumb.push({ label: currentPage.label });
       } else if (pathname !== '/dashboard') {
         // Fallback for pages not in nav, e.g. a sub-page
