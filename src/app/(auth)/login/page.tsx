@@ -20,7 +20,8 @@ import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { Logo } from "@/components/logo";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { mockUsers } from "@/lib/users";
+import { mockUsers, type MockUser } from "@/lib/users";
+import { useEffect, useState } from "react";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email." }),
@@ -30,9 +31,23 @@ const formSchema = z.object({
   }),
 });
 
+// Store users in a client-side variable to persist them across navigations
+let sessionUsers: MockUser[] = [...mockUsers];
+
 export default function LoginPage() {
   const router = useRouter();
   const { toast } = useToast();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+    const storedUsers = localStorage.getItem('sessionUsers');
+    if (storedUsers) {
+      sessionUsers = JSON.parse(storedUsers);
+    } else {
+        localStorage.setItem('sessionUsers', JSON.stringify(sessionUsers));
+    }
+  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -46,7 +61,7 @@ export default function LoginPage() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     const { email, password, role } = values;
 
-    const user = mockUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
+    const user = sessionUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
 
     if (!user) {
       toast({
@@ -83,6 +98,10 @@ export default function LoginPage() {
         router.push("/dashboard");
         break;
     }
+  }
+
+  if (!isClient) {
+      return null;
   }
 
   return (

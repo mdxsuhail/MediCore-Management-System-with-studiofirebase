@@ -20,7 +20,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { Logo } from "@/components/logo";
-import { mockUsers } from "@/lib/users";
+import { mockUsers, type MockUser } from "@/lib/users";
+import { useEffect, useState } from "react";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email." }),
@@ -30,9 +31,22 @@ const formSchema = z.object({
   }),
 });
 
+let sessionUsers: MockUser[] = [...mockUsers];
+
 export default function SignupPage() {
   const router = useRouter();
   const { toast } = useToast();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+    const storedUsers = localStorage.getItem('sessionUsers');
+    if (storedUsers) {
+      sessionUsers = JSON.parse(storedUsers);
+    } else {
+        localStorage.setItem('sessionUsers', JSON.stringify(sessionUsers));
+    }
+  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -46,7 +60,7 @@ export default function SignupPage() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     const { email, password, role } = values;
 
-    const existingUser = mockUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
+    const existingUser = sessionUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
 
     if (existingUser) {
       toast({
@@ -58,7 +72,10 @@ export default function SignupPage() {
     }
 
     // Add the new user to the mock users array
-    mockUsers.push({ email, password, role });
+    sessionUsers.push({ email, password, role });
+    if (typeof window !== "undefined") {
+      localStorage.setItem('sessionUsers', JSON.stringify(sessionUsers));
+    }
     
     toast({
       title: "Account Created",
@@ -77,6 +94,10 @@ export default function SignupPage() {
         router.push("/dashboard");
         break;
     }
+  }
+  
+  if (!isClient) {
+      return null;
   }
 
   return (
