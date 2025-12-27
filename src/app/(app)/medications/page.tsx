@@ -43,10 +43,22 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogClose
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 
 export default function MedicationsPage() {
   const [medications, setMedications] = useState<Medication[]>(initialMedications);
   const { toast } = useToast();
+  const [newMed, setNewMed] = useState({ name: '', dosage: '', frequency: '', refillsRemaining: 1 });
 
   const handleSetReminder = (medName: string) => {
     toast({
@@ -71,6 +83,24 @@ export default function MedicationsPage() {
       )
     );
   };
+  
+  const handleAddMedication = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newMed.name && newMed.dosage && newMed.frequency) {
+      const newMedication: Medication = {
+        id: (medications.length + 1).toString(),
+        status: 'active',
+        ...newMed,
+        refillsRemaining: Number(newMed.refillsRemaining)
+      };
+      setMedications(prevMeds => [newMedication, ...prevMeds]);
+      toast({
+        title: "Medication Added",
+        description: `${newMed.name} has been added to your list.`,
+      });
+      setNewMed({ name: '', dosage: '', frequency: '', refillsRemaining: 1 }); // Reset form
+    }
+  };
 
   return (
     <Card>
@@ -81,10 +111,47 @@ export default function MedicationsPage() {
             Track your prescriptions and manage your medication schedule.
           </CardDescription>
         </div>
-        <Button>
-          <PlusCircle className="mr-2 h-4 w-4" />
-          Add Medication
-        </Button>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button>
+              <PlusCircle className="mr-2 h-4 w-4" />
+              Add Medication
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <form onSubmit={handleAddMedication}>
+              <DialogHeader>
+                <DialogTitle>Add New Medication</DialogTitle>
+                <DialogDescription>
+                  Enter the details of your new medication.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="name" className="text-right">Name</Label>
+                  <Input id="name" value={newMed.name} onChange={e => setNewMed({...newMed, name: e.target.value})} className="col-span-3" required />
+                </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="dosage" className="text-right">Dosage</Label>
+                  <Input id="dosage" value={newMed.dosage} onChange={e => setNewMed({...newMed, dosage: e.target.value})} className="col-span-3" placeholder="e.g. 500mg" required />
+                </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="frequency" className="text-right">Frequency</Label>
+                  <Input id="frequency" value={newMed.frequency} onChange={e => setNewMed({...newMed, frequency: e.target.value})} className="col-span-3" placeholder="e.g. Twice a day" required />
+                </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="refills" className="text-right">Refills</Label>
+                  <Input id="refills" type="number" value={newMed.refillsRemaining} onChange={e => setNewMed({...newMed, refillsRemaining: parseInt(e.target.value)})} className="col-span-3" min="0" required />
+                </div>
+              </div>
+              <DialogFooter>
+                <DialogClose asChild>
+                  <Button type="submit">Add Medication</Button>
+                </DialogClose>
+              </DialogFooter>
+            </form>
+          </DialogContent>
+        </Dialog>
       </CardHeader>
       <CardContent>
         <Table>
