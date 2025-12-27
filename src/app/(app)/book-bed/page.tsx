@@ -88,6 +88,11 @@ export default function BookBedPage() {
     }
   }
 
+  const handleDialogCloseAndRefresh = () => {
+    setShowConfirmationDialog(false);
+    window.location.reload();
+  }
+
   return (
     <div className="space-y-8">
       <Card>
@@ -230,7 +235,7 @@ export default function BookBedPage() {
             </div>
           )}
           <AlertDialogFooter>
-            <AlertDialogAction onClick={() => setShowConfirmationDialog(false)}>
+            <AlertDialogAction onClick={handleDialogCloseAndRefresh}>
               OK
             </AlertDialogAction>
           </AlertDialogFooter>
