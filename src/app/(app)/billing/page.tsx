@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { CreditCard, Download, Plus, CheckCircle2 } from "lucide-react";
+import { CreditCard, Download, Plus, CheckCircle2, XCircle } from "lucide-react";
 import type { Invoice } from "@/lib/types";
 import { initialInvoiceHistory } from "@/lib/placeholder-data";
 import { useToast } from "@/hooks/use-toast";
@@ -42,6 +42,18 @@ export default function BillingPage() {
         toast({
             title: "Payment Successful",
             description: `Invoice ${invoiceId} has been paid.`,
+        });
+    };
+
+    const handleCancelBooking = (invoiceId: string) => {
+        const updatedInvoices = invoices.filter(inv => inv.id !== invoiceId);
+        setInvoices(updatedInvoices);
+        localStorage.setItem('invoiceHistory', JSON.stringify(updatedInvoices));
+
+        toast({
+            variant: "destructive",
+            title: "Booking Canceled",
+            description: `Invoice ${invoiceId} has been canceled and removed.`,
         });
     };
 
@@ -105,17 +117,25 @@ export default function BillingPage() {
                                     </Badge>
                                 </TableCell>
                                 <TableCell className="text-right">
-                                    {invoice.status === 'Unpaid' ? (
-                                        <Button variant="default" size="sm" onClick={() => handlePayNow(invoice.id)}>
-                                            <CreditCard className="mr-2 h-4 w-4" />
-                                            Pay Now
-                                        </Button>
-                                    ) : (
-                                        <Button variant="outline" size="sm">
-                                            <Download className="mr-2 h-4 w-4" />
-                                            Download
-                                        </Button>
-                                    )}
+                                    <div className="flex justify-end gap-2">
+                                        {invoice.status === 'Unpaid' ? (
+                                            <>
+                                                <Button variant="default" size="sm" onClick={() => handlePayNow(invoice.id)}>
+                                                    <CreditCard className="mr-2 h-4 w-4" />
+                                                    Pay Now
+                                                </Button>
+                                                <Button variant="outline" size="sm" onClick={() => handleCancelBooking(invoice.id)}>
+                                                    <XCircle className="mr-2 h-4 w-4" />
+                                                    Cancel
+                                                </Button>
+                                            </>
+                                        ) : (
+                                            <Button variant="outline" size="sm">
+                                                <Download className="mr-2 h-4 w-4" />
+                                                Download
+                                            </Button>
+                                        )}
+                                    </div>
                                 </TableCell>
                             </TableRow>
                         ))}
