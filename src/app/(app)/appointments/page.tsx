@@ -233,15 +233,15 @@ export default function AppointmentsPage() {
           <AlertDialogHeader>
             <AlertDialogTitle>Booking Confirmed!</AlertDialogTitle>
             <AlertDialogDescription>
-              <div>
-                Your appointment with {bookedDoctor} is confirmed. Please keep track of the waiting line. Your token number is:
-                <div className="text-center py-4">
-                    <div className="text-6xl font-bold text-primary">#{assignedToken}</div>
-                </div>
-                You will be notified when it's your turn.
-              </div>
+              Your appointment with {bookedDoctor} is confirmed. Please keep track of the waiting line. Your token number is:
             </AlertDialogDescription>
           </AlertDialogHeader>
+          <div className="text-center py-4">
+            <div className="text-6xl font-bold text-primary">#{assignedToken}</div>
+          </div>
+          <p className="text-sm text-muted-foreground text-center">
+            You will be notified when it's your turn.
+          </p>
           <AlertDialogFooter>
             <AlertDialogAction onClick={() => setShowBookingDialog(false)}>OK</AlertDialogAction>
           </AlertDialogFooter>
