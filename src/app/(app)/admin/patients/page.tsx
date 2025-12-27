@@ -93,7 +93,7 @@ export default function PatientManagementPage() {
                 <TableCell>{patient.dateJoined ? new Date(patient.dateJoined).toLocaleDateString() : 'N/A'}</TableCell>
                 <TableCell>{patient.lastAppointment ? new Date(patient.lastAppointment).toLocaleDateString() : 'N/A'}</TableCell>
                 <TableCell>
-                  <Badge variant={patient.status === 'active' ? 'default' : 'destructive'} className="capitalize bg-green-500 text-white">
+                  <Badge variant={patient.status === 'active' ? 'default' : 'destructive'} className="capitalize">
                     {patient.status}
                   </Badge>
                 </TableCell>

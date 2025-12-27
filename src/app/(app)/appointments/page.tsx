@@ -22,7 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Star, Ticket, User } from "lucide-react";
+import { Star, Ticket } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -64,7 +64,10 @@ export default function AppointmentsPage() {
     if (!isClient) return;
     const queueInterval = setInterval(() => {
       setQueue(prevQueue => {
-        if (prevQueue.length === 0) return [];
+        if (prevQueue.length === 0) {
+            clearInterval(queueInterval);
+            return [];
+        };
         const newQueue = [...prevQueue.slice(1)];
         if (newQueue.length > 0) {
            const lastToken = newQueue[newQueue.length - 1]?.token || 0;
@@ -75,7 +78,7 @@ export default function AppointmentsPage() {
     }, 5000); // Move queue every 5 seconds
 
     return () => clearInterval(queueInterval);
-  }, [isClient]);
+  }, [isClient, queue]);
 
   useEffect(() => {
     let newFilteredDoctors = doctors.filter(doctor =>
@@ -214,7 +217,7 @@ export default function AppointmentsPage() {
               </p>
             </CardContent>
             <CardFooter className="flex justify-between items-center">
-               <Badge variant={doctor.availability === 'available' ? 'default' : 'destructive'} className="capitalize bg-green-500 text-white dark:bg-green-600">
+               <Badge variant={doctor.availability === 'available' ? 'default' : 'destructive'} className="capitalize">
                     {doctor.availability}
                </Badge>
               <Button 
@@ -250,5 +253,3 @@ export default function AppointmentsPage() {
     </div>
   );
 }
-
-    
