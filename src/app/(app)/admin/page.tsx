@@ -1,3 +1,4 @@
+
 import {
     Card,
     CardContent,
@@ -22,8 +23,10 @@ import {
   import { Badge } from "@/components/ui/badge";
   import { Progress } from "@/components/ui/progress";
   import { bedAvailability, doctors, ambulanceAvailability } from "@/lib/placeholder-data";
-  import { BarChart, Bed, Hospital, Stethoscope, Users, Ambulance as AmbulanceIcon } from "lucide-react";
+  import { BarChart, Bed, Hospital, Stethoscope, Users, Ambulance as AmbulanceIcon, Map } from "lucide-react";
   import { ChartContainer, ChartTooltip, ChartTooltipContent, Bar as BarChartComponent, BarChart as RechartsBarChart } from "@/components/ui/chart";
+  import Link from "next/link";
+  import { Button } from "@/components/ui/button";
 
   const chartData = [
     { month: "January", appointments: 186 },
@@ -126,7 +129,18 @@ import {
             </TabsContent>
             <TabsContent value="ambulances">
                 <Card>
-                    <CardHeader><CardTitle>Ambulance Fleet Status</CardTitle></CardHeader>
+                    <CardHeader className="flex flex-row items-center justify-between">
+                        <div>
+                            <CardTitle>Ambulance Fleet Status</CardTitle>
+                            <CardDescription>Overview of all available ambulances.</CardDescription>
+                        </div>
+                        <Button asChild>
+                            <Link href="/admin/ambulances">
+                                <Map className="mr-2 h-4 w-4" />
+                                View Live Map
+                            </Link>
+                        </Button>
+                    </CardHeader>
                     <CardContent>
                          <Table>
                             <TableHeader>

@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from 'react';
@@ -29,6 +30,7 @@ import {
   LifeBuoy,
   HeartPulse,
   Pill,
+  Map
 } from 'lucide-react';
 import { AppHeader } from '@/components/app-header';
 
@@ -51,7 +53,7 @@ const adminNav = [
   { href: '#', label: 'Doctors', icon: Stethoscope },
   { href: '#', label: 'Patients', icon: Users },
   { href: '#', label: 'Beds', icon: Hospital },
-  { href: '#', label: 'Ambulances', icon: Ambulance },
+  { href: '/admin/ambulances', label: 'Ambulances', icon: Ambulance },
 ];
 
 
@@ -74,7 +76,16 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       break;
     case 'admin':
       navItems = adminNav;
-      breadcrumb = [{ label: "Admin" }, { label: "Dashboard" }];
+      breadcrumb = [{ label: "Admin" }];
+      const adminCurrentPage = adminNav.find(item => item.href === pathname);
+      if (adminCurrentPage) {
+        breadcrumb.push({ label: adminCurrentPage.label, href: adminCurrentPage.href });
+      } else if (pathname !== '/admin') {
+        const pageTitle = pathname.split('/').pop()?.replace('-', ' ');
+        breadcrumb.push({ label: pageTitle ? pageTitle.charAt(0).toUpperCase() + pageTitle.slice(1) : 'Dashboard' });
+      } else {
+        breadcrumb.push({ label: 'Dashboard' });
+      }
       break;
     default:
       navItems = patientNav;
