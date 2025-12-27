@@ -33,7 +33,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { useToast } from "@/hooks/use-toast";
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
@@ -58,6 +58,15 @@ const chartData = [
   { name: 'Jun', bp: 120, glucose: 92 },
 ];
 
+const ClientTime = ({ date }: { date: string }) => {
+    const [time, setTime] = useState('');
+  
+    useEffect(() => {
+      setTime(new Date(date).toLocaleTimeString());
+    }, [date]);
+  
+    return <>{time}</>;
+  };
 
 export default function VitalsPage() {
   const { toast } = useToast();
@@ -176,7 +185,7 @@ export default function VitalsPage() {
                     <TableRow key={log.id}>
                       <TableCell className="font-medium">{log.value} {log.unit}</TableCell>
                       <TableCell>{new Date(log.date).toLocaleDateString()}</TableCell>
-                      <TableCell>{new Date(log.date).toLocaleTimeString()}</TableCell>
+                      <TableCell><ClientTime date={log.date} /></TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -196,7 +205,7 @@ export default function VitalsPage() {
                     <TableRow key={log.id}>
                       <TableCell className="font-medium">{log.value} {log.unit}</TableCell>
                       <TableCell>{new Date(log.date).toLocaleDateString()}</TableCell>
-                      <TableCell>{new Date(log.date).toLocaleTimeString()}</TableCell>
+                      <TableCell><ClientTime date={log.date} /></TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -216,7 +225,7 @@ export default function VitalsPage() {
                     <TableRow key={log.id}>
                       <TableCell className="font-medium">{log.value} {log.unit}</TableCell>
                       <TableCell>{new Date(log.date).toLocaleDateString()}</TableCell>
-                      <TableCell>{new Date(log.date).toLocaleTimeString()}</TableCell>
+                      <TableCell><ClientTime date={log.date} /></TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
