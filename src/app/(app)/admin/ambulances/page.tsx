@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { ambulanceAvailability } from "@/lib/placeholder-data";
-import { Ambulance as AmbulanceIcon, LocateFixed, User, Battery } from "lucide-react";
+import { Ambulance as AmbulanceIcon, User, Battery } from "lucide-react";
 import Image from "next/image";
 import { placeholderImages } from '@/lib/placeholder-images';
 
@@ -28,8 +28,15 @@ const initialAmbulanceLocations: AmbulanceLocation[] = ambulanceAvailability.map
 
 export default function AmbulanceTrackingPage() {
   const [locations, setLocations] = useState<AmbulanceLocation[]>(initialAmbulanceLocations);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isClient) return;
+
     const interval = setInterval(() => {
       setLocations(currentLocations => 
         currentLocations.map(loc => {
@@ -50,7 +57,7 @@ export default function AmbulanceTrackingPage() {
     }, 2000); // Update every 2 seconds
 
     return () => clearInterval(interval);
-  }, []);
+  }, [isClient]);
   
   const mapImage = placeholderImages.find(p => p.id === 'map-background');
 
@@ -73,7 +80,7 @@ export default function AmbulanceTrackingPage() {
                         className="object-cover opacity-50"
                     />
                 )}
-              {locations.map(amb => (
+              {isClient && locations.map(amb => (
                 <div
                   key={amb.id}
                   className="absolute transition-all duration-1000 ease-linear"

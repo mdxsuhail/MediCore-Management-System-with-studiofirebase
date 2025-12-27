@@ -202,29 +202,26 @@ const ChartTooltipContent = React.forwardRef<
                   formatter(item.value, item.name, item, index, item.payload)
                 ) : (
                   <>
-                    {itemConfig?.icon ? (
-                      <itemConfig.icon />
-                    ) : (
-                      !hideIndicator && (
-                        <div
-                          className={cn(
-                            "shrink-0 rounded-[2px] border-[--color-border] bg-[--color-bg]",
-                            {
-                              "h-2.5 w-2.5": indicator === "dot",
-                              "w-1": indicator === "line",
-                              "w-0 border-[1.5px] border-dashed bg-transparent":
-                                indicator === "dashed",
-                              "my-0.5": nestLabel && indicator === "dashed",
-                            }
-                          )}
-                          style={
-                            {
-                              "--color-bg": indicatorColor,
-                              "--color-border": indicatorColor,
-                            } as React.CSSProperties
-                          }
-                        />
-                      )
+                    {!hideIndicator && (
+                      <div
+                        className={cn(
+                          "shrink-0 rounded-[2px] border-[--color-border] bg-[--color-bg]",
+                          {
+                            "h-2.5 w-2.5": indicator === "dot",
+                            "w-1": indicator === "line",
+                            "w-0 border-[1.5px] border-dashed bg-transparent":
+                              indicator === "dashed",
+                            "my-0.5": nestLabel && indicator === "dashed",
+                          },
+                          itemConfig?.icon ? "hidden" : "revert"
+                        )}
+                        style={
+                          {
+                            "--color-bg": indicatorColor,
+                            "--color-border": indicatorColor,
+                          } as React.CSSProperties
+                        }
+                      />
                     )}
                     <div
                       className={cn(
@@ -355,6 +352,23 @@ function getPayloadConfigFromPayload(
     : config[key as keyof typeof config]
 }
 
+const Bar = React.forwardRef<
+  React.ElementRef<typeof RechartsPrimitive.Bar>,
+  React.ComponentProps<typeof RechartsPrimitive.Bar>
+>(({ ...props }, ref) => {
+  return <RechartsPrimitive.Bar ref={ref} {...props} />;
+});
+Bar.displayName = "Bar"
+
+const BarChart = React.forwardRef<
+  React.ElementRef<typeof RechartsPrimitive.BarChart>,
+  React.ComponentProps<typeof RechartsPrimitive.BarChart>
+>(({ ...props }, ref) => {
+  return <RechartsPrimitive.BarChart ref={ref} {...props} />;
+});
+BarChart.displayName = "BarChart"
+
+
 export {
   ChartContainer,
   ChartTooltip,
@@ -362,4 +376,6 @@ export {
   ChartLegend,
   ChartLegendContent,
   ChartStyle,
+  Bar,
+  BarChart
 }

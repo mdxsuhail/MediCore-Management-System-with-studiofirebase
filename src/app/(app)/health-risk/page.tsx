@@ -1,13 +1,13 @@
 "use client"
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
+import { BarChart as RechartsBarChart, Bar, CartesianGrid, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
 import { ChartConfig, ChartContainer, ChartTooltipContent } from "@/components/ui/chart";
 
 const chartConfig = {
@@ -21,9 +21,17 @@ const chartConfig = {
 
 export default function HealthRiskPage() {
     const [riskResult, setRiskResult] = useState<{level: string, score: number, chartData: any[]} | null>(null);
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+
+        if (!isClient) return;
+
         // Mock calculation
         const score = Math.floor(Math.random() * 100);
         let level = "Low Risk";
@@ -140,13 +148,13 @@ export default function HealthRiskPage() {
                 </CardHeader>
                 <CardContent>
                     <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
-                        <BarChart accessibilityLayer data={riskResult.chartData} layout="vertical" margin={{ left: 10 }}>
+                        <RechartsBarChart accessibilityLayer data={riskResult.chartData} layout="vertical" margin={{ left: 10 }}>
                             <CartesianGrid horizontal={false} />
                             <YAxis dataKey="factor" type="category" tickLine={false} tickMargin={10} axisLine={false} />
                             <XAxis dataKey="score" type="number" hide />
                             <Tooltip cursor={false} content={<ChartTooltipContent />} />
                             <Bar dataKey="score" radius={5} />
-                        </BarChart>
+                        </RechartsBarChart>
                     </ChartContainer>
                 </CardContent>
             </Card>
