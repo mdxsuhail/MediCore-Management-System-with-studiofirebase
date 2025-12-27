@@ -44,7 +44,7 @@ export default function SignupPage() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const { email, role } = values;
+    const { email, password, role } = values;
 
     const existingUser = mockUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
 
@@ -57,8 +57,9 @@ export default function SignupPage() {
       return;
     }
 
-    // Mock signup logic
-    console.log(values);
+    // Add the new user to the mock users array
+    mockUsers.push({ email, password, role });
+    
     toast({
       title: "Account Created",
       description: "Redirecting to your dashboard...",
