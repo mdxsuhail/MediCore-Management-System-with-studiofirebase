@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -16,13 +17,21 @@ import Link from "next/link";
 import { ThemeToggle } from "./theme-toggle";
 import { CreditCard, LogOut, Settings, User } from "lucide-react";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 export function UserNav() {
   const [mounted, setMounted] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const getBillingLink = () => {
+    if (pathname.startsWith('/admin')) return '/admin/billing';
+    if (pathname.startsWith('/doctor')) return '/doctor/billing';
+    return '/billing';
+  };
 
   if (!mounted) {
     return (
@@ -66,7 +75,7 @@ export function UserNav() {
              </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <Link href="/billing">
+            <Link href={getBillingLink()}>
               <CreditCard className="mr-2 h-4 w-4" />
               Billing
             </Link>

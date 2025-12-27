@@ -32,6 +32,7 @@ import {
   Pill,
   Map,
   BedDouble,
+  CreditCard,
 } from 'lucide-react';
 import { AppHeader } from '@/components/app-header';
 
@@ -48,6 +49,7 @@ const patientNav = [
 const doctorNav = [
   { href: '/doctor', label: 'Dashboard', icon: Home },
   { href: '/doctor/consultation', label: 'Consultation Tool', icon: Stethoscope },
+  { href: '/doctor/billing', label: 'Billing', icon: CreditCard },
 ];
 
 const adminNav = [
@@ -56,6 +58,7 @@ const adminNav = [
   { href: '/admin/patients', label: 'Patients', icon: Users },
   { href: '/admin/beds', label: 'Beds', icon: BedDouble },
   { href: '/admin/ambulances', label: 'Live Ambulances', icon: Map },
+  { href: '/admin/billing', label: 'Billing', icon: CreditCard },
 ];
 
 
@@ -72,8 +75,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     case 'doctor':
       navItems = doctorNav;
       breadcrumb = [{ label: "Doctor" }];
-      const doctorCurrentPage = doctorNav.find(item => item.href === pathname);
-      if (doctorCurrentPage) {
+      const doctorCurrentPage = doctorNav.find(item => pathname.startsWith(item.href));
+      if (doctorCurrentPage && doctorCurrentPage.href !== '/doctor') {
         breadcrumb.push({ label: doctorCurrentPage.label, href: doctorCurrentPage.href });
       } else if (pathname !== '/doctor') {
         const pageTitle = pathname.split('/').pop()?.replace('-', ' ');
@@ -85,7 +88,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     case 'admin':
       navItems = adminNav;
       breadcrumb = [{ label: "Admin" }];
-      const adminCurrentPage = adminNav.find(item => item.href === pathname);
+      const adminCurrentPage = adminNav.find(item => pathname.startsWith(item.href));
       if (adminCurrentPage && adminCurrentPage.href !== '/admin') {
         breadcrumb.push({ label: adminCurrentPage.label, href: adminCurrentPage.href });
       } else if (pathname !== '/admin') {
@@ -95,7 +98,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         breadcrumb.push({ label: 'Dashboard' });
       }
       break;
-    default:
+    default: // patient
       navItems = patientNav;
       const currentPage = patientNav.find(item => item.href === pathname);
       breadcrumb = [{ label: "Home", href: "/dashboard" }];
@@ -128,7 +131,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               <SidebarMenuItem key={item.label}>
                 <SidebarMenuButton
                   href={item.href}
-                  isActive={pathname.startsWith(item.href) && (item.href !== '/admin' || pathname === '/admin')}
+                  isActive={pathname.startsWith(item.href) && (item.href !== '/' || pathname === '/') && (item.href !== '/admin' || pathname === '/admin') && (item.href !== '/doctor' || pathname === '/doctor')}
                   tooltip={item.label}
                   asChild
                 >
