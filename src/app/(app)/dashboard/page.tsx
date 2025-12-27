@@ -8,7 +8,7 @@ import {
   CardFooter
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowUpRight, Calendar, FileText, HeartPulse, Pill, User } from "lucide-react";
+import { ArrowUpRight, Calendar, FileText, HeartPulse, Pill, User, Ambulance } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { appointments, medicalDocuments, medications, vitals } from "@/lib/placeholder-data";
@@ -24,7 +24,7 @@ export default function DashboardPage() {
               Here's a summary of your health and upcoming activities.
             </CardDescription>
           </CardHeader>
-          <CardContent className="grid gap-4 sm:grid-cols-2">
+          <CardContent className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <Card>
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium">Health Status</CardTitle>
@@ -94,6 +94,22 @@ export default function DashboardPage() {
                       <Link href="/vitals">Track Vitals</Link>
                   </Button>
                </CardFooter>
+            </Card>
+            <Card className="sm:col-span-2 lg:col-span-1 bg-destructive/10 border-destructive">
+                <CardHeader className="pb-2">
+                    <CardTitle className="text-base font-medium flex items-center gap-2">
+                        <Ambulance className="h-5 w-5 text-destructive" />
+                        Emergency
+                    </CardTitle>
+                </CardHeader>
+                <CardContent>
+                     <p className="text-xs text-destructive/80">
+                        Request an ambulance to your current location immediately.
+                    </p>
+                </CardContent>
+                <CardFooter>
+                    <Button variant="destructive" className="w-full">Book Ambulance</Button>
+                </CardFooter>
             </Card>
           </CardContent>
         </Card>
