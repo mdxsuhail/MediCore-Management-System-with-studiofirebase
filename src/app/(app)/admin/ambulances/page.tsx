@@ -21,8 +21,8 @@ type AmbulanceLocation = {
 const initialAmbulanceLocations: AmbulanceLocation[] = ambulanceAvailability.map((amb, index) => ({
   ...amb,
   position: {
-    top: `${20 + index * 25}%`,
-    left: `${20 + index * 15}%`,
+    top: `${20 + (Math.random() * 60)}%`,
+    left: `${10 + (Math.random() * 80)}%`,
   },
 }));
 
