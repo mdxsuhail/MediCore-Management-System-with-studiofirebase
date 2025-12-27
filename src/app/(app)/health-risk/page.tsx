@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect } from "react";
@@ -7,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { BarChart as RechartsBarChart, Bar, CartesianGrid, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
+import { Bar, BarChart as RechartsBarChart, ResponsiveContainer, Tooltip, XAxis, YAxis, CartesianGrid } from 'recharts';
 import { ChartConfig, ChartContainer, ChartTooltipContent } from "@/components/ui/chart";
 
 const chartConfig = {
@@ -102,6 +103,20 @@ export default function HealthRiskPage() {
                             <div className="flex items-center space-x-2"><RadioGroupItem value="no" id="smoke-no" /><Label htmlFor="smoke-no">No</Label></div>
                         </RadioGroup>
                     </div>
+                    <div className="space-y-2">
+                        <Label>Do you have diabetes?</Label>
+                        <RadioGroup defaultValue="no" className="flex pt-2">
+                            <div className="flex items-center space-x-2"><RadioGroupItem value="yes" id="diabetes-yes" /><Label htmlFor="diabetes-yes">Yes</Label></div>
+                            <div className="flex items-center space-x-2"><RadioGroupItem value="no" id="diabetes-no" /><Label htmlFor="diabetes-no">No</Label></div>
+                        </RadioGroup>
+                    </div>
+                    <div className="space-y-2">
+                        <Label>Does your family have a history of heart disease?</Label>
+                        <RadioGroup defaultValue="no" className="flex pt-2">
+                            <div className="flex items-center space-x-2"><RadioGroupItem value="yes" id="history-yes" /><Label htmlFor="history-yes">Yes</Label></div>
+                            <div className="flex items-center space-x-2"><RadioGroupItem value="no" id="history-no" /><Label htmlFor="history-no">No</Label></div>
+                        </RadioGroup>
+                    </div>
                      <div className="space-y-2">
                         <Label>Physical Activity</Label>
                          <Select>
@@ -111,6 +126,18 @@ export default function HealthRiskPage() {
                                 <SelectItem value="light">Lightly Active</SelectItem>
                                 <SelectItem value="moderate">Moderately Active</SelectItem>
                                 <SelectItem value="very">Very Active</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div className="space-y-2">
+                        <Label>Alcohol Consumption</Label>
+                         <Select>
+                            <SelectTrigger><SelectValue placeholder="Select consumption level" /></SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="none">None</SelectItem>
+                                <SelectItem value="light">Light (1-3 drinks/week)</SelectItem>
+                                <SelectItem value="moderate">Moderate (4-7 drinks/week)</SelectItem>
+                                <SelectItem value="heavy">Heavy (8+ drinks/week)</SelectItem>
                             </SelectContent>
                         </Select>
                     </div>
