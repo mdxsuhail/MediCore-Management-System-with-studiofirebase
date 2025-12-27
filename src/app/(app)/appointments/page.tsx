@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -22,7 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Star, Ticket } from "lucide-react";
+import { Star, Ticket, User } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -33,12 +33,44 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
+import { placeholderImages } from "@/lib/placeholder-images";
+
+const initialQueue = [
+  { id: 1, name: "AB", token: 5 },
+  { id: 2, name: "CD", token: 6 },
+  { id: 3, name: "EF", token: 7 },
+  { id: 4, name: "GH", token: 8 },
+  { id: 5, name: "IJ", token: 9 },
+];
 
 export default function AppointmentsPage() {
   const { toast } = useToast();
   const [showBookingDialog, setShowBookingDialog] = useState(false);
   const [bookedDoctor, setBookedDoctor] = useState("");
   const [assignedToken, setAssignedToken] = useState(0);
+  const [queue, setQueue] = useState(initialQueue);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isClient) return;
+    const queueInterval = setInterval(() => {
+      setQueue(prevQueue => {
+        const newQueue = [...prevQueue.slice(1)];
+        if (newQueue.length > 0) {
+           const lastToken = newQueue[newQueue.length - 1].token;
+           newQueue.push({ id: Math.random(), name: "KL", token: lastToken + 1 });
+        }
+        return newQueue;
+      });
+    }, 5000); // Move queue every 5 seconds
+
+    return () => clearInterval(queueInterval);
+  }, [isClient]);
 
   const handleBookAppointment = (doctorName: string) => {
     const newToken = Math.floor(Math.random() * 100) + 10;
@@ -59,16 +91,35 @@ export default function AppointmentsPage() {
             <CardTitle>Waiting Line</CardTitle>
             <CardDescription>Live status of the queue.</CardDescription>
           </CardHeader>
-          <CardContent className="flex justify-around text-center">
-            <div>
-              <p className="text-4xl font-bold text-primary">#5</p>
-              <p className="text-sm text-muted-foreground">Currently Serving</p>
-            </div>
-            <div>
-              <p className="text-4xl font-bold">#6</p>
-              <p className="text-sm text-muted-foreground">Next Token</p>
-            </div>
-          </CardContent>
+          <CardContent className="flex flex-col items-center justify-center space-y-4">
+              <div className="flex items-center space-x-2">
+                <div className="text-center">
+                  <p className="text-4xl font-bold text-primary">#{queue.length > 0 ? queue[0].token : '-'}</p>
+                  <p className="text-sm text-muted-foreground">Currently Serving</p>
+                </div>
+              </div>
+              <div className="relative flex h-16 w-full items-center justify-center overflow-hidden">
+                {isClient && queue.slice(1, 6).map((person, index) => (
+                  <div
+                    key={person.id}
+                    className="absolute transition-all duration-500 ease-in-out"
+                    style={{
+                      left: `calc(50% + ${index * 40 - 80}px)`,
+                      transform: `scale(${1 - index * 0.1})`,
+                      zIndex: 5 - index,
+                    }}
+                  >
+                    <Avatar className="h-10 w-10 border-2 border-background">
+                      <AvatarImage src={`https://picsum.photos/seed/${person.id}/100`} />
+                      <AvatarFallback>{person.name}</AvatarFallback>
+                    </Avatar>
+                    <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 rounded-full bg-secondary px-1.5 py-0.5 text-xs font-semibold">
+                      #{person.token}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
         </Card>
         <Card className="md:col-span-2">
             <CardHeader>
