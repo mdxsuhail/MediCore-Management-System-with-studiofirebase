@@ -19,8 +19,8 @@ import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { Logo } from "@/components/logo";
-import { useState } from "react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { mockUsers } from "@/lib/users";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email." }),
@@ -44,8 +44,28 @@ export default function LoginPage() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Mock login logic
-    console.log(values);
+    const { email, password, role } = values;
+
+    const user = mockUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
+
+    if (!user) {
+      toast({
+        variant: "destructive",
+        title: "Login Failed",
+        description: "No account found with this email. Please sign up.",
+      });
+      return;
+    }
+
+    if (user.role !== role || user.password !== password) {
+      toast({
+        variant: "destructive",
+        title: "Login Failed",
+        description: "Invalid email, password, or role selected.",
+      });
+      return;
+    }
+
     toast({
       title: "Login Successful",
       description: "Redirecting to your dashboard...",

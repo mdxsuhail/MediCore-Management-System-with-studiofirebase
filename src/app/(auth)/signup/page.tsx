@@ -20,6 +20,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { Logo } from "@/components/logo";
+import { mockUsers } from "@/lib/users";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email." }),
@@ -43,6 +44,19 @@ export default function SignupPage() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    const { email, role } = values;
+
+    const existingUser = mockUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
+
+    if (existingUser) {
+      toast({
+        variant: "destructive",
+        title: "Account Exists",
+        description: "An account with this email already exists. Please log in.",
+      });
+      return;
+    }
+
     // Mock signup logic
     console.log(values);
     toast({
