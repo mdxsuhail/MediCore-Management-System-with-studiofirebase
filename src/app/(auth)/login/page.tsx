@@ -20,7 +20,8 @@ import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { Logo } from "@/components/logo";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { mockUsers, type MockUser } from "@/lib/users";
+import { mockUsers } from "@/lib/users";
+import { type MockUser } from "@/lib/types";
 import { useEffect, useState } from "react";
 
 const formSchema = z.object({

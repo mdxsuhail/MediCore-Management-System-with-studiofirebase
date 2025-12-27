@@ -103,3 +103,15 @@ export type Invoice = {
   amount: string;
   status: 'Paid' | 'Unpaid';
 }
+
+export type MockUser = {
+    id: string;
+    name: string;
+    email: string;
+    password: string; // In a real app, this would be a hash
+    role: 'patient' | 'doctor' | 'admin';
+    dateJoined: string;
+    lastAppointment?: string;
+    status: 'active' | 'inactive';
+    avatarUrl: string;
+};

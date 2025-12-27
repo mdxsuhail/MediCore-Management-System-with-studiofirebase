@@ -20,10 +20,12 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { Logo } from "@/components/logo";
-import { mockUsers, type MockUser } from "@/lib/users";
+import { mockUsers } from "@/lib/users";
+import { type MockUser } from "@/lib/types";
 import { useEffect, useState } from "react";
 
 const formSchema = z.object({
+  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email." }),
   password: z.string().min(8, { message: "Password must be at least 8 characters." }),
   role: z.enum(["patient", "doctor", "admin"], {
@@ -51,6 +53,7 @@ export default function SignupPage() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      name: "",
       email: "",
       password: "",
       role: "patient",
@@ -58,7 +61,7 @@ export default function SignupPage() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const { email, password, role } = values;
+    const { name, email, password, role } = values;
 
     const existingUser = sessionUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
 
@@ -72,7 +75,17 @@ export default function SignupPage() {
     }
 
     // Add the new user to the mock users array
-    sessionUsers.push({ email, password, role });
+    const newUser: MockUser = {
+        id: `usr-${sessionUsers.length + 1}`,
+        name,
+        email,
+        password,
+        role,
+        dateJoined: new Date().toISOString().split('T')[0],
+        status: 'active',
+        avatarUrl: `https://picsum.photos/seed/${name.split(' ').join('')}/200`
+    };
+    sessionUsers.push(newUser);
     if (typeof window !== "undefined") {
       localStorage.setItem('sessionUsers', JSON.stringify(sessionUsers));
     }
@@ -115,6 +128,19 @@ export default function SignupPage() {
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Full Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="John Doe" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="email"
