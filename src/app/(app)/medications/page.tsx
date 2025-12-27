@@ -18,7 +18,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
 import { medications as initialMedications } from "@/lib/placeholder-data";
 import type { Medication } from "@/lib/types";
 import { Bell, MoreHorizontal, PlusCircle, Trash2 } from "lucide-react";
@@ -42,6 +41,8 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 
 export default function MedicationsPage() {
   const [medications, setMedications] = useState<Medication[]>(initialMedications);
@@ -63,9 +64,17 @@ export default function MedicationsPage() {
     });
   };
 
+  const handleStatusChange = (medId: string, newStatus: boolean) => {
+    setMedications(meds => 
+      meds.map(m => 
+        m.id === medId ? { ...m, status: newStatus ? 'active' : 'inactive' } : m
+      )
+    );
+  };
+
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between">
+      <CardHeader className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
           <CardTitle>Your Medications</CardTitle>
           <CardDescription>
@@ -81,11 +90,11 @@ export default function MedicationsPage() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[200px]">Medication</TableHead>
+              <TableHead className="w-full max-w-[150px] md:max-w-none">Medication</TableHead>
               <TableHead>Dosage</TableHead>
               <TableHead>Frequency</TableHead>
-              <TableHead>Status</TableHead>
               <TableHead>Refills Remaining</TableHead>
+              <TableHead>Status</TableHead>
               <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
@@ -96,15 +105,23 @@ export default function MedicationsPage() {
                 <TableCell>{med.dosage}</TableCell>
                 <TableCell>{med.frequency}</TableCell>
                 <TableCell>
-                  <Badge variant={med.status === 'active' ? 'default' : 'outline'} className={med.status === 'active' ? 'bg-green-500 text-white' : ''}>
-                    {med.status}
-                  </Badge>
+                    <div className="flex flex-col md:flex-row items-start md:items-center gap-2">
+                        <Progress value={(med.refillsRemaining / 5) * 100} className="w-full md:w-[60%]" />
+                        <span className="text-xs text-muted-foreground md:text-sm">{med.refillsRemaining} of 5</span>
+                    </div>
                 </TableCell>
                 <TableCell>
-                    <div className="flex items-center gap-2">
-                        <Progress value={(med.refillsRemaining / 5) * 100} className="w-[60%]" />
-                        <span>{med.refillsRemaining} of 5</span>
-                    </div>
+                  <div className="flex items-center space-x-2">
+                    <Switch
+                      id={`status-${med.id}`}
+                      checked={med.status === 'active'}
+                      onCheckedChange={(checked) => handleStatusChange(med.id, checked)}
+                      aria-label={`Mark as ${med.status === 'active' ? 'inactive' : 'active'}`}
+                    />
+                     <Label htmlFor={`status-${med.id}`} className="text-xs md:text-sm capitalize">
+                        {med.status}
+                    </Label>
+                  </div>
                 </TableCell>
                 <TableCell className="text-right">
                   <AlertDialog>
@@ -122,7 +139,7 @@ export default function MedicationsPage() {
                           Set Reminder
                         </DropdownMenuItem>
                        <AlertDialogTrigger asChild>
-                         <DropdownMenuItem className="text-destructive" onSelect={(e) => e.preventDefault()}>
+                         <DropdownMenuItem className="text-destructive focus:text-destructive" onSelect={(e) => e.preventDefault()}>
                            <Trash2 className="mr-2 h-4 w-4" />
                            Delete
                          </DropdownMenuItem>
