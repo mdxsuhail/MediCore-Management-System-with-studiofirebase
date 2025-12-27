@@ -1,4 +1,4 @@
-import type { Doctor, Appointment, MedicalDocument, BedInfo, Ambulance } from './types';
+import type { Doctor, Appointment, MedicalDocument, BedInfo, Ambulance, Medication, VitalSign } from './types';
 
 export const doctors: Doctor[] = [
   {
@@ -94,6 +94,13 @@ export const medicalDocuments: MedicalDocument[] = [
   },
 ];
 
+export const medications: Medication[] = [
+    { id: '1', name: 'Metformin', dosage: '500mg', frequency: 'Twice a day', status: 'active', refillsRemaining: 3 },
+    { id: '2', name: 'Lisinopril', dosage: '10mg', frequency: 'Once a day', status: 'active', refillsRemaining: 5 },
+    { id: '3', name: 'Atorvastatin', dosage: '20mg', frequency: 'Once a day', status: 'inactive', refillsRemaining: 0 },
+    { id: '4', name: 'Amoxicillin', dosage: '250mg', frequency: 'Three times a day', status: 'inactive', refillsRemaining: 0 },
+];
+
 export const bedAvailability: BedInfo[] = [
     { type: 'ICU', total: 20, occupied: 18, available: 2 },
     { type: 'General', total: 150, occupied: 125, available: 25 },
@@ -105,3 +112,9 @@ export const ambulanceAvailability: Ambulance[] = [
     { id: '2', vehicleNumber: 'AMB-002', driverName: 'Sarah Connor', status: 'on-duty', location: { lat: 12.9816, lng: 77.6046 } },
     { id: '3', vehicleNumber: 'AMB-003', driverName: 'Kyle Reese', status: 'maintenance', location: { lat: 12.9616, lng: 77.5846 } },
 ];
+
+export const vitals: VitalSign[] = [
+  { id: "1", name: "Blood Pressure", value: "120/80", unit: "mmHg", date: "2024-07-20", trend: "stable" },
+  { id: "2", name: "Blood Glucose", value: "95", unit: "mg/dL", date: "2024-07-20", trend: "down" },
+  { id: "3", name: "BMI", value: "22.5", unit: "kg/m²", date: "2024-07-20", trend: "stable" },
+]

@@ -8,15 +8,15 @@ import {
   CardFooter
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowUpRight, Calendar, FileText, User } from "lucide-react";
+import { ArrowUpRight, Calendar, FileText, HeartPulse, Pill, User } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { appointments, medicalDocuments } from "@/lib/placeholder-data";
+import { appointments, medicalDocuments, medications, vitals } from "@/lib/placeholder-data";
 
 export default function DashboardPage() {
   return (
     <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
-      <div className="xl:col-span-2">
+      <div className="space-y-4 xl:col-span-2">
         <Card>
           <CardHeader>
             <CardTitle>Welcome back, John!</CardTitle>
@@ -58,6 +58,40 @@ export default function DashboardPage() {
                <CardFooter>
                   <Button size="sm" variant="outline" asChild>
                       <Link href="/appointments">Manage Appointments</Link>
+                  </Button>
+               </CardFooter>
+            </Card>
+             <Card>
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-sm font-medium">Active Medications</CardTitle>
+                <Pill className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{medications.filter(m => m.status === 'active').length}</div>
+                <p className="text-xs text-muted-foreground">
+                  Currently prescribed.
+                </p>
+              </CardContent>
+               <CardFooter>
+                  <Button size="sm" variant="outline" asChild>
+                      <Link href="/medications">View Medications</Link>
+                  </Button>
+               </CardFooter>
+            </Card>
+             <Card>
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-sm font-medium">Recent Vitals</CardTitle>
+                <HeartPulse className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                 <div className="text-sm font-bold">BP: {vitals.find(v => v.name === 'Blood Pressure')?.value}</div>
+                <p className="text-xs text-muted-foreground">
+                  Updated on {new Date(vitals[0].date).toLocaleDateString()}
+                </p>
+              </CardContent>
+               <CardFooter>
+                  <Button size="sm" variant="outline" asChild>
+                      <Link href="/vitals">Track Vitals</Link>
                   </Button>
                </CardFooter>
             </Card>
@@ -121,7 +155,7 @@ export default function DashboardPage() {
                 <ArrowUpRight className="h-4 w-4" />
               </Link>
             </Button>
-          </CardHeader>
+          </Header>
           <CardContent>
             <div className="grid gap-3">
             {medicalDocuments.slice(0, 3).map((doc) => (

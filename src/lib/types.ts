@@ -7,7 +7,7 @@ export type User = {
 };
 
 export type Doctor = {
-  id: string;
+  id:string;
   name: string;
   specialty: string;
   experience: number;
@@ -54,3 +54,21 @@ export type Ambulance = {
     lng: number;
   };
 };
+
+export type Medication = {
+  id: string;
+  name: string;
+  dosage: string;
+  frequency: string;
+  status: 'active' | 'inactive';
+  refillsRemaining: number;
+};
+
+export type VitalSign = {
+  id: string;
+  name: "Blood Pressure" | "Blood Glucose" | "BMI";
+  value: string;
+  unit: string;
+  date: string;
+  trend: "up" | "down" | "stable";
+}

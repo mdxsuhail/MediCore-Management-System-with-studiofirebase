@@ -26,7 +26,9 @@ import {
   Ambulance,
   BarChart,
   LogOut,
-  LifeBuoy
+  LifeBuoy,
+  HeartPulse,
+  Pill,
 } from 'lucide-react';
 import { AppHeader } from '@/components/app-header';
 
@@ -34,6 +36,8 @@ const patientNav = [
   { href: '/dashboard', label: 'Dashboard', icon: Home },
   { href: '/appointments', label: 'Appointments', icon: Calendar },
   { href: '/documents', label: 'Documents', icon: FileText },
+  { href: '/medications', label: 'Medications', icon: Pill },
+  { href: '/vitals', label: 'Vitals', icon: HeartPulse },
   { href: '/health-risk', label: 'Health Risk', icon: ShieldCheck },
 ];
 
@@ -79,9 +83,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       if (currentPage && currentPage.href !== '/dashboard') {
         breadcrumb.push({ label: currentPage.label });
       } else if (pathname !== '/dashboard') {
-        breadcrumb.push({ label: 'Dashboard' });
+        // Fallback for pages not in nav, e.g. a sub-page
+        const pathParts = pathname.split('/').filter(p => p);
+        const pageTitle = pathParts.length > 0 ? pathParts[pathParts.length -1] : 'Dashboard';
+        breadcrumb.push({ label: pageTitle.charAt(0).toUpperCase() + pageTitle.slice(1) });
       }
-
   }
 
   return (
