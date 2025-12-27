@@ -1,0 +1,56 @@
+export type User = {
+  id: string;
+  name: string;
+  email: string;
+  avatarUrl: string;
+  role: 'patient' | 'doctor' | 'admin';
+};
+
+export type Doctor = {
+  id: string;
+  name: string;
+  specialty: string;
+  experience: number;
+  hospital: string;
+  availability: 'available' | 'unavailable';
+  consultationFee: number;
+  avatarUrl: string;
+  bio: string;
+};
+
+export type Appointment = {
+  id: string;
+  patientName: string;
+  doctorName: string;
+  doctorSpecialty: string;
+  date: string;
+  time: string;
+  status: 'upcoming' | 'completed' | 'cancelled';
+  token: number;
+};
+
+export type MedicalDocument = {
+  id: string;
+  name: string;
+  type: 'prescription' | 'report' | 'invoice';
+  uploadDate: string;
+  url: string;
+};
+
+export type BedInfo = {
+  type: 'ICU' | 'General' | 'Ward';
+  total: number;
+  occupied: number;
+  available: number;
+};
+
+export type Ambulance = {
+  id: string;
+  vehicleNumber: string;
+  driverName: string;
+  status: 'available' | 'on-duty' | 'maintenance';
+  location: {
+    lat: number;
+    lng: number;
+  };
+};
