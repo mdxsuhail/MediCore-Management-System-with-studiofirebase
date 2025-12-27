@@ -12,6 +12,7 @@ import {
 import { placeholderImages } from "@/lib/placeholder-images";
 import Link from "next/link";
 import { ThemeToggle } from "./theme-toggle";
+import { CreditCard, LogOut, Settings, User } from "lucide-react";
 
 export function UserNav() {
   return (
@@ -40,18 +41,24 @@ export function UserNav() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
+            <User className="mr-2 h-4 w-4" />
             Profile
           </DropdownMenuItem>
           <DropdownMenuItem>
+            <CreditCard className="mr-2 h-4 w-4" />
             Billing
           </DropdownMenuItem>
           <DropdownMenuItem>
+            <Settings className="mr-2 h-4 w-4" />
             Settings
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
          <DropdownMenuItem asChild>
-            <Link href="/">Log out</Link>
+            <Link href="/">
+              <LogOut className="mr-2 h-4 w-4" />
+              Log out
+            </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <div className="flex items-center justify-center">
