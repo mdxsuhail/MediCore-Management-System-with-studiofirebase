@@ -33,6 +33,7 @@ import {
   Map,
   BedDouble,
   CreditCard,
+  Settings,
 } from 'lucide-react';
 import { AppHeader } from '@/components/app-header';
 
@@ -50,6 +51,7 @@ const doctorNav = [
   { href: '/doctor', label: 'Dashboard', icon: Home },
   { href: '/doctor/consultation', label: 'Consultation Tool', icon: Stethoscope },
   { href: '/doctor/billing', label: 'Billing', icon: CreditCard },
+  { href: '/doctor/settings', label: 'Settings', icon: Settings },
 ];
 
 const adminNav = [
@@ -59,6 +61,7 @@ const adminNav = [
   { href: '/admin/beds', label: 'Beds', icon: BedDouble },
   { href: '/admin/ambulances', label: 'Live Ambulances', icon: Map },
   { href: '/admin/billing', label: 'Billing', icon: CreditCard },
+  { href: '/admin/settings', label: 'Settings', icon: Settings },
 ];
 
 
@@ -71,16 +74,20 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   let navItems;
   let breadcrumb;
 
+  const getPageTitle = (path: string) => {
+    const page = path.split('/').pop()?.replace(/-/g, ' ');
+    return page ? page.charAt(0).toUpperCase() + page.slice(1) : '';
+  };
+  
   switch (role) {
     case 'doctor':
       navItems = doctorNav;
       breadcrumb = [{ label: "Doctor" }];
-      const doctorCurrentPage = doctorNav.find(item => pathname.startsWith(item.href));
+      const doctorCurrentPage = doctorNav.find(item => pathname === item.href);
       if (doctorCurrentPage && doctorCurrentPage.href !== '/doctor') {
         breadcrumb.push({ label: doctorCurrentPage.label, href: doctorCurrentPage.href });
       } else if (pathname !== '/doctor') {
-        const pageTitle = pathname.split('/').pop()?.replace('-', ' ');
-        breadcrumb.push({ label: pageTitle ? pageTitle.charAt(0).toUpperCase() + pageTitle.slice(1) : 'Dashboard' });
+        breadcrumb.push({ label: getPageTitle(pathname) });
       } else {
         breadcrumb.push({ label: 'Dashboard' });
       }
@@ -88,12 +95,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     case 'admin':
       navItems = adminNav;
       breadcrumb = [{ label: "Admin" }];
-      const adminCurrentPage = adminNav.find(item => pathname.startsWith(item.href));
+      const adminCurrentPage = adminNav.find(item => pathname === item.href);
       if (adminCurrentPage && adminCurrentPage.href !== '/admin') {
         breadcrumb.push({ label: adminCurrentPage.label, href: adminCurrentPage.href });
       } else if (pathname !== '/admin') {
-        const pageTitle = pathname.split('/').pop()?.replace('-', ' ');
-        breadcrumb.push({ label: pageTitle ? pageTitle.charAt(0).toUpperCase() + pageTitle.slice(1) : 'Dashboard' });
+         breadcrumb.push({ label: getPageTitle(pathname) });
       } else {
         breadcrumb.push({ label: 'Dashboard' });
       }
@@ -131,7 +137,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               <SidebarMenuItem key={item.label}>
                 <SidebarMenuButton
                   href={item.href}
-                  isActive={pathname.startsWith(item.href) && (item.href !== '/' || pathname === '/') && (item.href !== '/admin' || pathname === '/admin') && (item.href !== '/doctor' || pathname === '/doctor')}
+                  isActive={pathname === item.href}
                   tooltip={item.label}
                   asChild
                 >

@@ -32,6 +32,12 @@ export function UserNav() {
     if (pathname.startsWith('/doctor')) return '/doctor/billing';
     return '/billing';
   };
+  
+  const getSettingsLink = () => {
+    if (pathname.startsWith('/admin')) return '/admin/settings';
+    if (pathname.startsWith('/doctor')) return '/doctor/settings';
+    return '/settings';
+  };
 
   if (!mounted) {
     return (
@@ -81,7 +87,7 @@ export function UserNav() {
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <Link href="/settings">
+            <Link href={getSettingsLink()}>
               <Settings className="mr-2 h-4 w-4" />
               Settings
             </Link>
