@@ -155,7 +155,7 @@ export default function DashboardPage() {
                 <ArrowUpRight className="h-4 w-4" />
               </Link>
             </Button>
-          </Header>
+          </CardHeader>
           <CardContent>
             <div className="grid gap-3">
             {medicalDocuments.slice(0, 3).map((doc) => (
