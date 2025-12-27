@@ -78,8 +78,8 @@ This project is actively being built and improved as part of continuous learning
 
 📜 License
 
-This project is open-source for learning and demonstration purposes.
-Unauthorized commercial use of the core logic is discouraged.
+©️ 2025 Mohammed Suhail. All rights reserved.
+This code may not be copied, modified, distributed, or used commercially without explicit written permission.
 
 🤝 Contributing
 
