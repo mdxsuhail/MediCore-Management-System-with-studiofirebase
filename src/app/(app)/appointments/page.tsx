@@ -118,7 +118,7 @@ export default function AppointmentsPage() {
           <CardContent className="flex flex-col items-center justify-center space-y-4">
               <div className="flex items-center space-x-2">
                 <div className="text-center">
-                  <p className="text-4xl font-bold text-primary">#{queue.length > 0 ? queue[0].token : '-'}</p>
+                  <div className="text-4xl font-bold text-primary">#{queue.length > 0 ? queue[0].token : '-'}</div>
                   <p className="text-sm text-muted-foreground">Currently Serving</p>
                 </div>
               </div>
@@ -233,11 +233,13 @@ export default function AppointmentsPage() {
           <AlertDialogHeader>
             <AlertDialogTitle>Booking Confirmed!</AlertDialogTitle>
             <AlertDialogDescription>
-              Your appointment with {bookedDoctor} is confirmed. Please keep track of the waiting line. Your token number is:
-              <div className="text-center py-4">
-                  <p className="text-6xl font-bold text-primary">#{assignedToken}</p>
+              <div>
+                Your appointment with {bookedDoctor} is confirmed. Please keep track of the waiting line. Your token number is:
+                <div className="text-center py-4">
+                    <div className="text-6xl font-bold text-primary">#{assignedToken}</div>
+                </div>
+                You will be notified when it's your turn.
               </div>
-              You will be notified when it's your turn.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
