@@ -6,6 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { DollarSign, TrendingUp, Users, CreditCard } from "lucide-react";
 import { ChartContainer, ChartTooltip, ChartTooltipContent, Bar as BarChartComponent, BarChart as RechartsBarChart } from "@/components/ui/chart";
+import { CartesianGrid } from "recharts";
 
 const revenueData = [
     { month: 'Jan', revenue: 4500 },
