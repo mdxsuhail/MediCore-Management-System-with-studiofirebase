@@ -46,6 +46,116 @@ export const doctors: Doctor[] = [
     avatarUrl: 'https://picsum.photos/seed/doc4/200/200',
     bio: 'Dr. Wilson is a board-certified orthopedic surgeon specializing in joint replacement and sports medicine.'
   },
+  {
+    id: '5',
+    name: 'Dr. Olivia Martinez',
+    specialty: 'Dermatologist',
+    experience: 7,
+    hospital: 'City Central Hospital',
+    availability: 'available',
+    consultationFee: 200,
+    avatarUrl: 'https://picsum.photos/seed/doc5/200/200',
+    bio: 'Dr. Martinez offers comprehensive dermatological care, from cosmetic procedures to treatment of skin cancer.'
+  },
+  {
+    id: '6',
+    name: 'Dr. Liam Garcia',
+    specialty: 'Gastroenterologist',
+    experience: 10,
+    hospital: 'Unity General Hospital',
+    availability: 'unavailable',
+    consultationFee: 230,
+    avatarUrl: 'https://picsum.photos/seed/doc6/200/200',
+    bio: 'Expert in digestive health, Dr. Garcia helps patients manage a wide range of gastrointestinal disorders.'
+  },
+  {
+    id: '7',
+    name: 'Dr. Sophia Rodriguez',
+    specialty: 'Endocrinologist',
+    experience: 14,
+    hospital: 'St. Jude Children\'s Hospital',
+    availability: 'available',
+    consultationFee: 260,
+    avatarUrl: 'https://picsum.photos/seed/doc7/200/200',
+    bio: 'Dr. Rodriguez focuses on hormonal imbalances, including diabetes and thyroid disorders, with a patient-centered approach.'
+  },
+  {
+    id: '8',
+    name: 'Dr. Noah Hernandez',
+    specialty: 'Psychiatrist',
+    experience: 18,
+    hospital: 'City Central Hospital',
+    availability: 'available',
+    consultationFee: 280,
+    avatarUrl: 'https://picsum.photos/seed/doc8/200/200',
+    bio: 'With a focus on mental wellness, Dr. Hernandez provides therapy and medication management for adults and adolescents.'
+  },
+  {
+    id: '9',
+    name: 'Dr. Isabella Lopez',
+    specialty: 'Oncologist',
+    experience: 22,
+    hospital: 'Unity General Hospital',
+    availability: 'available',
+    consultationFee: 350,
+    avatarUrl: 'https://picsum.photos/seed/doc9/200/200',
+    bio: 'A leading cancer specialist, Dr. Lopez is committed to providing cutting-edge treatments and compassionate care.'
+  },
+  {
+    id: '10',
+    name: 'Dr. Mason Gonzalez',
+    specialty: 'Urologist',
+    experience: 9,
+    hospital: 'City Central Hospital',
+    availability: 'unavailable',
+    consultationFee: 240,
+    avatarUrl: 'https://picsum.photos/seed/doc10/200/200',
+    bio: 'Dr. Gonzalez specializes in urinary tract health for all genders and provides advanced urological treatments.'
+  },
+  {
+    id: '11',
+    name: 'Dr. Ava Perez',
+    specialty: 'Rheumatologist',
+    experience: 11,
+    hospital: 'Unity General Hospital',
+    availability: 'available',
+    consultationFee: 255,
+    avatarUrl: 'https://picsum.photos/seed/doc11/200/200',
+    bio: 'Dr. Perez focuses on autoimmune and inflammatory conditions that affect joints, muscles, and bones.'
+  },
+  {
+    id: '12',
+    name: 'Dr. Elijah Sanchez',
+    specialty: 'Pulmonologist',
+    experience: 16,
+    hospital: 'St. Jude Children\'s Hospital',
+    availability: 'available',
+    consultationFee: 275,
+    avatarUrl: 'https://picsum.photos/seed/doc12/200/200',
+    bio: 'Specializing in respiratory diseases, Dr. Sanchez treats conditions like asthma, COPD, and lung cancer.'
+  },
+  {
+    id: '13',
+    name: 'Dr. Mia Flores',
+    specialty: 'Allergist/Immunologist',
+    experience: 6,
+    hospital: 'City Central Hospital',
+    availability: 'unavailable',
+    consultationFee: 190,
+    avatarUrl: 'https://picsum.photos/seed/doc13/200/200',
+    bio: 'Dr. Flores helps patients of all ages find relief from allergies and other immune system disorders.'
+  },
+  {
+    id: '14',
+    name: 'Dr. Logan Rivera',
+    specialty: 'Nephrologist',
+    experience: 13,
+    hospital: 'Unity General Hospital',
+    availability: 'available',
+    consultationFee: 265,
+    avatarUrl: 'https://picsum.photos/seed/doc14/200/200',
+    bio: 'Dr. Rivera is an expert in kidney health, managing everything from chronic kidney disease to kidney transplants.'
+  },
 ];
 
 export const appointments: Appointment[] = [
