@@ -1,9 +1,17 @@
+
 export type User = {
   id: string;
   name: string;
   email: string;
   avatarUrl: string;
   role: 'patient' | 'doctor' | 'admin';
+  dob?: string;
+  phone?: string;
+  address?: string;
+  emergencyContact?: {
+    name: string;
+    phone: string;
+  };
 };
 
 export type Doctor = {
