@@ -1,3 +1,6 @@
+
+"use client";
+
 import {
   Card,
   CardContent,
@@ -19,8 +22,18 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Star } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 export default function AppointmentsPage() {
+  const { toast } = useToast();
+
+  const handleBookAppointment = (doctorName: string) => {
+    toast({
+      title: "Appointment Booked!",
+      description: `Your appointment with ${doctorName} has been successfully scheduled.`,
+    });
+  };
+  
   return (
     <div className="space-y-8">
       <div>
@@ -96,7 +109,10 @@ export default function AppointmentsPage() {
                <Badge variant={doctor.availability === 'available' ? 'default' : 'destructive'} className="capitalize bg-green-500 text-white dark:bg-green-600">
                     {doctor.availability}
                </Badge>
-              <Button disabled={doctor.availability === 'unavailable'}>
+              <Button 
+                disabled={doctor.availability === 'unavailable'}
+                onClick={() => handleBookAppointment(doctor.name)}
+              >
                 Book Appointment
               </Button>
             </CardFooter>

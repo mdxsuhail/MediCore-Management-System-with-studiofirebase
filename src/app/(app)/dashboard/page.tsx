@@ -1,4 +1,6 @@
 
+"use client";
+
 import Link from "next/link";
 import {
   Card,
@@ -13,8 +15,29 @@ import { ArrowUpRight, Calendar, FileText, HeartPulse, Pill, User, Ambulance } f
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { appointments, medicalDocuments, medications, vitals } from "@/lib/placeholder-data";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { useToast } from "@/hooks/use-toast";
 
 export default function DashboardPage() {
+  const { toast } = useToast();
+
+  const handleBookAmbulance = () => {
+    toast({
+      title: "Ambulance Dispatched",
+      description: "An ambulance is on its way to your location. Help will arrive shortly.",
+    });
+  };
+
   return (
     <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
       <div className="space-y-4 xl:col-span-2">
@@ -96,22 +119,38 @@ export default function DashboardPage() {
                   </Button>
                </CardFooter>
             </Card>
-            <Card className="sm:col-span-2 lg:col-span-1 bg-destructive/10 border-destructive">
-                <CardHeader className="pb-2">
-                    <CardTitle className="text-base font-medium flex items-center gap-2">
-                        <Ambulance className="h-5 w-5 text-destructive" />
-                        Emergency
-                    </CardTitle>
-                </CardHeader>
-                <CardContent>
-                     <p className="text-xs text-destructive/80">
-                        Request an ambulance to your current location immediately.
-                    </p>
-                </CardContent>
-                <CardFooter>
-                    <Button variant="destructive" className="w-full">Book Ambulance</Button>
-                </CardFooter>
-            </Card>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Card className="sm:col-span-2 lg:col-span-1 bg-destructive/10 border-destructive cursor-pointer hover:bg-destructive/20">
+                    <CardHeader className="pb-2">
+                        <CardTitle className="text-base font-medium flex items-center gap-2">
+                            <Ambulance className="h-5 w-5 text-destructive" />
+                            Emergency
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                         <p className="text-xs text-destructive/80">
+                            Request an ambulance to your current location immediately.
+                        </p>
+                    </CardContent>
+                    <CardFooter>
+                        <Button variant="destructive" className="w-full">Book Ambulance</Button>
+                    </CardFooter>
+                </Card>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Confirm Emergency Request</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This will dispatch an ambulance to your current location immediately. Only proceed if this is a genuine emergency.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={handleBookAmbulance} className="bg-destructive hover:bg-destructive/90">Confirm Emergency</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </CardContent>
         </Card>
       </div>

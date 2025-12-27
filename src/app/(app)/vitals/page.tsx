@@ -32,6 +32,8 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
+import { useToast } from "@/hooks/use-toast";
+import { useRef } from 'react';
 
 const vitalIcons: { [key: string]: React.ReactNode } = {
   'Blood Pressure': <HeartPulse className="h-8 w-8 text-primary" />,
@@ -56,6 +58,18 @@ const chartData = [
 
 
 export default function VitalsPage() {
+  const { toast } = useToast();
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const handleAddLog = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    toast({
+      title: "Vitals Logged",
+      description: "Your new measurements have been saved successfully.",
+    });
+    formRef.current?.reset();
+  };
+  
   return (
     <div className="space-y-8">
       <div className="grid gap-4 md:grid-cols-3">
@@ -81,6 +95,7 @@ export default function VitalsPage() {
 
       <div className="grid gap-8 md:grid-cols-2">
         <Card>
+        <form ref={formRef}>
           <CardHeader>
             <CardTitle>Log New Vitals</CardTitle>
             <CardDescription>Enter your latest measurements below.</CardDescription>
@@ -106,8 +121,9 @@ export default function VitalsPage() {
             </div>
           </CardContent>
           <CardFooter className="flex justify-end">
-            <Button><PlusCircle className="mr-2 h-4 w-4" /> Add Log</Button>
+            <Button onClick={handleAddLog}><PlusCircle className="mr-2 h-4 w-4" /> Add Log</Button>
           </CardFooter>
+          </form>
         </Card>
 
         <Card>
