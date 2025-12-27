@@ -75,38 +75,42 @@ import Link from "next/link";
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Token</TableHead>
-                  <TableHead>Patient Name</TableHead>
-                  <TableHead>Time Slot</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {upcomingAppointments.map((appointment, index) => (
-                  <TableRow key={appointment.id} className={index === 0 ? "bg-secondary" : ""}>
-                    <TableCell className="font-bold">#{appointment.token}</TableCell>
-                    <TableCell>{appointment.patientName}</TableCell>
-                    <TableCell>{appointment.time}</TableCell>
-                    <TableCell>
-                      <Badge variant={index === 0 ? "default" : "secondary"}>
-                        {index === 0 ? 'Serving' : 'Waiting'}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="text-right">
-                        <Button variant="outline" size="sm">View Records</Button>
-                        <Button size="sm" className="ml-2" disabled={index !== 0}>
-                            <Video className="h-4 w-4 mr-2" />
-                            Start Call
-                        </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <div className="overflow-x-auto">
+                <Table>
+                <TableHeader>
+                    <TableRow>
+                    <TableHead>Token</TableHead>
+                    <TableHead>Patient Name</TableHead>
+                    <TableHead>Time Slot</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {upcomingAppointments.map((appointment, index) => (
+                    <TableRow key={appointment.id} className={index === 0 ? "bg-secondary" : ""}>
+                        <TableCell className="font-bold">#{appointment.token}</TableCell>
+                        <TableCell>{appointment.patientName}</TableCell>
+                        <TableCell>{appointment.time}</TableCell>
+                        <TableCell>
+                        <Badge variant={index === 0 ? "default" : "secondary"}>
+                            {index === 0 ? 'Serving' : 'Waiting'}
+                        </Badge>
+                        </TableCell>
+                        <TableCell className="text-right">
+                            <div className="flex justify-end gap-2">
+                                <Button variant="outline" size="sm">View Records</Button>
+                                <Button size="sm" disabled={index !== 0}>
+                                    <Video className="h-4 w-4 md:mr-2" />
+                                    <span className="hidden md:inline">Start Call</span>
+                                </Button>
+                            </div>
+                        </TableCell>
+                    </TableRow>
+                    ))}
+                </TableBody>
+                </Table>
+            </div>
           </CardContent>
         </Card>
       </div>

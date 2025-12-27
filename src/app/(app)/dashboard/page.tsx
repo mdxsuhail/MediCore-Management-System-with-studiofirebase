@@ -187,7 +187,7 @@ export default function DashboardPage() {
                         {appointment.doctorSpecialty}
                         </p>
                     </div>
-                    <div className="ml-auto font-medium text-right">
+                    <div className="ml-auto text-right font-medium">
                         <p className="text-sm">{new Date(appointment.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</p>
                         <p className="text-xs text-muted-foreground">{appointment.time}</p>
                     </div>

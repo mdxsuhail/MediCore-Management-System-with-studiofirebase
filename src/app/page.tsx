@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { HeartPulse, Stethoscope, FileText, Calendar, ShieldCheck, Ambulance } from "lucide-react";
 import { Logo } from "@/components/logo";
-import placeHolderImage from "@/lib/placeholder-images.json";
+import { placeholderImages } from "@/lib/placeholder-images";
 
 export default function Home() {
   const features = [
@@ -39,12 +39,14 @@ export default function Home() {
       description: "Check for available ambulances and their locations in case of emergencies.",
     },
   ];
+  
+  const heroImage = placeholderImages.find(p => p.id === 'hero-image');
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <header className="container mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
         <Logo />
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4">
           <Button variant="ghost" asChild>
             <Link href="/login">Log In</Link>
           </Button>
@@ -57,14 +59,14 @@ export default function Home() {
       <main className="flex-grow">
         <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
+            <div className="space-y-6 text-center md:text-left">
               <h1 className="text-4xl md:text-5xl font-bold tracking-tight font-headline text-primary">
                 Smarter Healthcare, Simplified.
               </h1>
               <p className="text-lg text-muted-foreground">
                 MediTrack Pro is your all-in-one platform for managing health records, booking appointments, and assessing health risks—all for free.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                 <Button size="lg" asChild>
                   <Link href="/signup">Get Started for Free</Link>
                 </Button>
@@ -74,13 +76,13 @@ export default function Home() {
               </div>
             </div>
             <div className="relative h-64 md:h-96 rounded-lg overflow-hidden shadow-2xl">
-               <Image
-                src={placeHolderImage.placeholderImages[0].imageUrl}
-                alt={placeHolderImage.placeholderImages[0].description}
-                data-ai-hint={placeHolderImage.placeholderImages[0].imageHint}
+               {heroImage && <Image
+                src={heroImage.imageUrl}
+                alt={heroImage.description}
+                data-ai-hint={heroImage.imageHint}
                 fill
                 className="object-cover"
-              />
+              />}
             </div>
           </div>
         </section>

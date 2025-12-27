@@ -115,7 +115,7 @@ export default function SignupPage() {
                   <RadioGroup
                     onValueChange={field.onChange}
                     defaultValue={field.value}
-                    className="flex space-x-4"
+                    className="flex flex-wrap space-x-4"
                   >
                     <FormItem className="flex items-center space-x-2 space-y-0">
                       <FormControl>
