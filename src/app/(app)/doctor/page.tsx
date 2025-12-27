@@ -101,4 +101,3 @@ import Link from "next/link";
       </div>
     );
   }
-  

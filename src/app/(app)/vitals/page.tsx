@@ -38,7 +38,7 @@ const vitalIcons: { [key: string]: React.ReactNode } = {
   BMI: <Weight className="h-8 w-8 text-primary" />,
 };
 
-const trendIcons = {
+const trendIcons: { [key: string]: React.ReactNode } = {
   up: <ArrowUp className="h-4 w-4 text-destructive" />,
   down: <ArrowDown className="h-4 w-4 text-green-500" />,
   stable: <ArrowRight className="h-4 w-4 text-muted-foreground" />,
