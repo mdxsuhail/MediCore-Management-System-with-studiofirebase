@@ -95,3 +95,11 @@ export type VitalsLogEntry = {
     unit: string;
     date: string;
 };
+
+export type Invoice = {
+  id: string;
+  description: string;
+  date: string;
+  amount: string;
+  status: 'Paid' | 'Unpaid';
+}

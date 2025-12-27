@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { hospitalBedAvailability } from "@/lib/placeholder-data";
+import { hospitalBedAvailability, initialInvoiceHistory } from "@/lib/placeholder-data";
 import { Progress } from "@/components/ui/progress";
 import { BedDouble, Hospital, Check, CreditCard, User, Phone } from "lucide-react";
 import {
@@ -29,10 +29,9 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog"
 import { useToast } from "@/hooks/use-toast";
-import type { BedInfo } from "@/lib/types";
+import type { BedInfo, Invoice } from "@/lib/types";
 import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -66,6 +65,20 @@ export default function BookBedPage() {
             title: "Bed Booked Successfully!",
             description: `A ${selectedBed.bed.type} bed has been reserved for ${patientDetails.name} at ${selectedBed.hospital}.`,
         });
+
+        // Add to billing
+        const newInvoice: Invoice = {
+            id: `inv-${Date.now()}`,
+            description: `Bed Booking: ${selectedBed.bed.type} at ${selectedBed.hospital}`,
+            date: new Date().toISOString().split('T')[0],
+            amount: `$${selectedBed.bed.price.toFixed(2)}`,
+            status: 'Unpaid'
+        };
+
+        const existingInvoices = JSON.parse(localStorage.getItem('invoiceHistory') || '[]') as Invoice[];
+        const updatedInvoices = [newInvoice, ...existingInvoices];
+        localStorage.setItem('invoiceHistory', JSON.stringify(updatedInvoices));
+
     } else {
       toast({
         variant: "destructive",
@@ -203,7 +216,7 @@ export default function BookBedPage() {
             <AlertDialogTitle>Booking Confirmed!</AlertDialogTitle>
             <AlertDialogDescription>
               Your bed has been successfully reserved. Please proceed to the
-              hospital.
+              hospital. An invoice has been added to your billing page.
             </AlertDialogDescription>
           </AlertDialogHeader>
           {selectedBed && (

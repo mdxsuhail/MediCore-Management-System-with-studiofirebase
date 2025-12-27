@@ -1,5 +1,5 @@
 
-import type { Doctor, Appointment, MedicalDocument, BedInfo, Ambulance, Medication, VitalSign, VitalsLogEntry, HospitalBedInfo } from './types';
+import type { Doctor, Appointment, MedicalDocument, BedInfo, Ambulance, Medication, VitalSign, VitalsLogEntry, HospitalBedInfo, Invoice } from './types';
 
 export const doctors: Doctor[] = [
   {
@@ -294,4 +294,9 @@ export const vitalsLog: VitalsLogEntry[] = [
     { id: "vl9", name: "BMI", value: "22.7", unit: "kg/m²", date: "2024-05-20T09:15:00Z" },
     { id: "vl14", name: "BMI", value: "22.6", unit: "kg/m²", date: "2024-04-20T09:10:00Z" },
     { id: "vl15", name: "BMI", value: "22.5", unit: "kg/m²", date: "2024-03-20T09:05:00Z" },
+];
+
+export const initialInvoiceHistory: Invoice[] = [
+    { id: 'inv-001', description: 'Consultation with Dr. Carter', date: '2024-07-15', amount: '$250.00', status: 'Paid' },
+    { id: 'inv-002', description: 'Neurology Checkup', date: '2024-06-20', amount: '$220.00', status: 'Paid' },
 ];

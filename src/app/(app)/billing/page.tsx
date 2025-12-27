@@ -1,19 +1,54 @@
 
+"use client";
+
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { CreditCard, Download, Plus } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { CreditCard, Download, Plus, CheckCircle2 } from "lucide-react";
+import type { Invoice } from "@/lib/types";
+import { initialInvoiceHistory } from "@/lib/placeholder-data";
+import { useToast } from "@/hooks/use-toast";
 
 const paymentMethods = [
     { id: '1', type: 'Visa', last4: '4242', expiry: '12/26' },
 ];
 
-const invoiceHistory = [
-    { id: 'inv-001', date: '2024-07-15', amount: '$250.00', status: 'Paid' },
-    { id: 'inv-002', date: '2024-06-20', amount: '$220.00', status: 'Paid' },
-];
-
 export default function BillingPage() {
+    const { toast } = useToast();
+    const [invoices, setInvoices] = useState<Invoice[]>([]);
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true);
+        // On component mount, read from localStorage or use initial data
+        const storedInvoices = localStorage.getItem('invoiceHistory');
+        if (storedInvoices) {
+            setInvoices(JSON.parse(storedInvoices));
+        } else {
+            setInvoices(initialInvoiceHistory);
+            localStorage.setItem('invoiceHistory', JSON.stringify(initialInvoiceHistory));
+        }
+    }, []);
+
+    const handlePayNow = (invoiceId: string) => {
+        const updatedInvoices = invoices.map(inv => 
+            inv.id === invoiceId ? { ...inv, status: 'Paid' as const } : inv
+        );
+        setInvoices(updatedInvoices);
+        localStorage.setItem('invoiceHistory', JSON.stringify(updatedInvoices));
+
+        toast({
+            title: "Payment Successful",
+            description: `Invoice ${invoiceId} has been paid.`,
+        });
+    };
+
+    if (!isClient) {
+        return null; // or a loading spinner
+    }
+
   return (
     <div className="space-y-8">
         <Card>
@@ -50,6 +85,7 @@ export default function BillingPage() {
                     <TableHeader>
                         <TableRow>
                             <TableHead>Invoice ID</TableHead>
+                            <TableHead>Description</TableHead>
                             <TableHead>Date</TableHead>
                             <TableHead>Amount</TableHead>
                             <TableHead>Status</TableHead>
@@ -57,17 +93,29 @@ export default function BillingPage() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {invoiceHistory.map((invoice) => (
+                        {invoices.map((invoice) => (
                             <TableRow key={invoice.id}>
                                 <TableCell className="font-medium">{invoice.id}</TableCell>
-                                <TableCell>{invoice.date}</TableCell>
+                                <TableCell>{invoice.description}</TableCell>
+                                <TableCell>{new Date(invoice.date).toLocaleDateString()}</TableCell>
                                 <TableCell>{invoice.amount}</TableCell>
-                                <TableCell>{invoice.status}</TableCell>
+                                <TableCell>
+                                    <Badge variant={invoice.status === 'Paid' ? 'secondary' : 'destructive'}>
+                                        {invoice.status}
+                                    </Badge>
+                                </TableCell>
                                 <TableCell className="text-right">
-                                    <Button variant="outline" size="sm">
-                                        <Download className="mr-2 h-4 w-4" />
-                                        Download
-                                    </Button>
+                                    {invoice.status === 'Unpaid' ? (
+                                        <Button variant="default" size="sm" onClick={() => handlePayNow(invoice.id)}>
+                                            <CreditCard className="mr-2 h-4 w-4" />
+                                            Pay Now
+                                        </Button>
+                                    ) : (
+                                        <Button variant="outline" size="sm">
+                                            <Download className="mr-2 h-4 w-4" />
+                                            Download
+                                        </Button>
+                                    )}
                                 </TableCell>
                             </TableRow>
                         ))}
