@@ -1,5 +1,5 @@
 
-import type { Doctor, Appointment, MedicalDocument, BedInfo, Ambulance, Medication, VitalSign } from './types';
+import type { Doctor, Appointment, MedicalDocument, BedInfo, Ambulance, Medication, VitalSign, VitalsLogEntry } from './types';
 
 export const doctors: Doctor[] = [
   {
@@ -249,3 +249,15 @@ export const vitals: VitalSign[] = [
   { id: "2", name: "Blood Glucose", value: "95", unit: "mg/dL", date: "2024-07-20", trend: "down" },
   { id: "3", name: "BMI", value: "22.5", unit: "kg/m²", date: "2024-07-20", trend: "stable" },
 ]
+
+export const vitalsLog: VitalsLogEntry[] = [
+    { id: "vl1", name: "Blood Pressure", value: "120/80", unit: "mmHg", date: "2024-07-20T08:00:00Z" },
+    { id: "vl2", name: "Blood Pressure", value: "122/81", unit: "mmHg", date: "2024-07-19T08:05:00Z" },
+    { id: "vl3", name: "Blood Pressure", value: "118/79", unit: "mmHg", date: "2024-07-18T08:02:00Z" },
+    { id: "vl4", name: "Blood Glucose", value: "95", unit: "mg/dL", date: "2024-07-20T08:00:00Z" },
+    { id: "vl5", name: "Blood Glucose", value: "105", unit: "mg/dL", date: "2024-07-19T08:05:00Z" },
+    { id: "vl6", name: "Blood Glucose", value: "98", unit: "mg/dL", date: "2024-07-18T08:02:00Z" },
+    { id: "vl7", name: "BMI", value: "22.5", unit: "kg/m²", date: "2024-07-20T08:00:00Z" },
+    { id: "vl8", name: "BMI", value: "22.6", unit: "kg/m²", date: "2024-06-20T09:00:00Z" },
+    { id: "vl9", name: "BMI", value: "22.7", unit: "kg/m²", date: "2024-05-20T09:15:00Z" },
+];

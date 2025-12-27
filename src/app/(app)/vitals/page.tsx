@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { vitals } from '@/lib/placeholder-data';
+import { vitals, vitalsLog } from '@/lib/placeholder-data';
 import {
   ArrowDown,
   ArrowRight,
@@ -34,6 +34,8 @@ import {
 } from 'recharts';
 import { useToast } from "@/hooks/use-toast";
 import { useRef } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 const vitalIcons: { [key: string]: React.ReactNode } = {
   'Blood Pressure': <HeartPulse className="h-8 w-8 text-primary" />,
@@ -93,8 +95,8 @@ export default function VitalsPage() {
         ))}
       </div>
 
-      <div className="grid gap-8 md:grid-cols-2">
-        <Card>
+      <div className="grid gap-8 md:grid-cols-5">
+        <Card className="md:col-span-2">
         <form ref={formRef}>
           <CardHeader>
             <CardTitle>Log New Vitals</CardTitle>
@@ -126,7 +128,7 @@ export default function VitalsPage() {
           </form>
         </Card>
 
-        <Card>
+        <Card className="md:col-span-3">
             <CardHeader>
                 <CardTitle>Trends Over Time</CardTitle>
                 <CardDescription>Visualize your health data from the last 6 months.</CardDescription>
@@ -147,6 +149,82 @@ export default function VitalsPage() {
             </CardContent>
         </Card>
       </div>
+
+       <Card>
+        <CardHeader>
+          <CardTitle>Vitals History</CardTitle>
+          <CardDescription>View your past logs for each vital measurement.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Tabs defaultValue="bp">
+            <TabsList className="grid w-full grid-cols-3">
+              <TabsTrigger value="bp">Blood Pressure</TabsTrigger>
+              <TabsTrigger value="glucose">Blood Glucose</TabsTrigger>
+              <TabsTrigger value="bmi">BMI</TabsTrigger>
+            </TabsList>
+            <TabsContent value="bp">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Value</TableHead>
+                    <TableHead>Date</TableHead>
+                    <TableHead>Time</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {vitalsLog.filter(log => log.name === 'Blood Pressure').map(log => (
+                    <TableRow key={log.id}>
+                      <TableCell className="font-medium">{log.value} {log.unit}</TableCell>
+                      <TableCell>{new Date(log.date).toLocaleDateString()}</TableCell>
+                      <TableCell>{new Date(log.date).toLocaleTimeString()}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TabsContent>
+            <TabsContent value="glucose">
+               <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Value</TableHead>
+                    <TableHead>Date</TableHead>
+                    <TableHead>Time</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {vitalsLog.filter(log => log.name === 'Blood Glucose').map(log => (
+                    <TableRow key={log.id}>
+                      <TableCell className="font-medium">{log.value} {log.unit}</TableCell>
+                      <TableCell>{new Date(log.date).toLocaleDateString()}</TableCell>
+                      <TableCell>{new Date(log.date).toLocaleTimeString()}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TabsContent>
+            <TabsContent value="bmi">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Value</TableHead>
+                    <TableHead>Date</TableHead>
+                    <TableHead>Time</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {vitalsLog.filter(log => log.name === 'BMI').map(log => (
+                    <TableRow key={log.id}>
+                      <TableCell className="font-medium">{log.value} {log.unit}</TableCell>
+                      <TableCell>{new Date(log.date).toLocaleDateString()}</TableCell>
+                      <TableCell>{new Date(log.date).toLocaleTimeString()}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TabsContent>
+          </Tabs>
+        </CardContent>
+      </Card>
     </div>
   );
 }

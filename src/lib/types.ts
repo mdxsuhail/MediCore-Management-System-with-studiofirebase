@@ -80,3 +80,11 @@ export type VitalSign = {
   date: string;
   trend: "up" | "down" | "stable";
 }
+
+export type VitalsLogEntry = {
+    id: string;
+    name: "Blood Pressure" | "Blood Glucose" | "BMI";
+    value: string;
+    unit: string;
+    date: string;
+};
