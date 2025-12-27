@@ -1,3 +1,4 @@
+
 import type { Doctor, Appointment, MedicalDocument, BedInfo, Ambulance, Medication, VitalSign } from './types';
 
 export const doctors: Doctor[] = [
@@ -57,6 +58,26 @@ export const appointments: Appointment[] = [
     time: '10:30 AM',
     status: 'upcoming',
     token: 5,
+  },
+  {
+    id: 'a2',
+    patientName: 'Michael Brown',
+    doctorName: 'Dr. Emily Carter',
+    doctorSpecialty: 'Cardiologist',
+    date: '2024-08-15',
+    time: '10:45 AM',
+    status: 'upcoming',
+    token: 6,
+  },
+   {
+    id: 'a3',
+    patientName: 'Jessica Williams',
+    doctorName: 'Dr. Emily Carter',
+    doctorSpecialty: 'Cardiologist',
+    date: '2024-08-15',
+    time: '11:00 AM',
+    status: 'upcoming',
+    token: 7,
   },
   {
     id: '2',

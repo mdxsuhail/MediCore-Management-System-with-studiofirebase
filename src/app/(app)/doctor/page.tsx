@@ -1,3 +1,4 @@
+
 import {
     Card,
     CardContent,
@@ -16,45 +17,53 @@ import {
   import { Badge } from "@/components/ui/badge";
   import { Button } from "@/components/ui/button";
   import { appointments } from "@/lib/placeholder-data";
-  import { Users, Clock, Stethoscope, Video } from "lucide-react";
+  import { Users, Clock, Stethoscope, Video, ChevronRight } from "lucide-react";
 import Link from "next/link";
   
   export default function DoctorDashboardPage() {
     const upcomingAppointments = appointments.filter(a => a.status === 'upcoming');
+    const currentlyServing = upcomingAppointments.length > 0 ? upcomingAppointments[0] : null;
 
     return (
       <div className="space-y-8">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Total Patients Today</CardTitle>
+                <CardTitle className="text-sm font-medium">Patients in Queue</CardTitle>
                 <Users className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
                 <div className="text-2xl font-bold">{upcomingAppointments.length}</div>
-                <p className="text-xs text-muted-foreground">in your queue</p>
+                <p className="text-xs text-muted-foreground">waiting for consultation</p>
                 </CardContent>
             </Card>
             <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Avg. Consultation Time</CardTitle>
+                <CardTitle className="text-sm font-medium">Currently Serving</CardTitle>
                 <Clock className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                <div className="text-2xl font-bold">12m 30s</div>
-                <p className="text-xs text-muted-foreground">based on last 7 days</p>
+                <div className="text-2xl font-bold">{currentlyServing ? `#${currentlyServing.token}`: 'N/A'}</div>
+                <p className="text-xs text-muted-foreground">{currentlyServing ? currentlyServing.patientName : 'No patients in queue'}</p>
                 </CardContent>
             </Card>
-            <Card>
+            <Card className="flex flex-col justify-center">
+                <CardContent className="pt-6">
+                    <Button className="w-full">
+                        Next Patient <ChevronRight className="h-4 w-4 ml-2" />
+                    </Button>
+                    <p className="text-xs text-muted-foreground text-center mt-2">Call the next person in queue.</p>
+                </CardContent>
+            </Card>
+            <Card className="flex flex-col justify-center">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">AI Tool</CardTitle>
+                <CardTitle className="text-sm font-medium">AI Summary Tool</CardTitle>
                 <Stethoscope className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
                     <Link href="/doctor/consultation">
-                        <Button className="w-full">Generate Summary</Button>
+                        <Button variant="outline" className="w-full">Generate Summary</Button>
                     </Link>
-                    <p className="text-xs text-muted-foreground text-center mt-2">Quickly summarize notes.</p>
                 </CardContent>
             </Card>
         </div>
@@ -77,17 +86,19 @@ import Link from "next/link";
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {upcomingAppointments.map((appointment) => (
-                  <TableRow key={appointment.id}>
+                {upcomingAppointments.map((appointment, index) => (
+                  <TableRow key={appointment.id} className={index === 0 ? "bg-secondary" : ""}>
                     <TableCell className="font-bold">#{appointment.token}</TableCell>
                     <TableCell>{appointment.patientName}</TableCell>
                     <TableCell>{appointment.time}</TableCell>
                     <TableCell>
-                      <Badge variant="secondary">Waiting</Badge>
+                      <Badge variant={index === 0 ? "default" : "secondary"}>
+                        {index === 0 ? 'Serving' : 'Waiting'}
+                      </Badge>
                     </TableCell>
                     <TableCell className="text-right">
                         <Button variant="outline" size="sm">View Records</Button>
-                        <Button size="sm" className="ml-2">
+                        <Button size="sm" className="ml-2" disabled={index !== 0}>
                             <Video className="h-4 w-4 mr-2" />
                             Start Call
                         </Button>
