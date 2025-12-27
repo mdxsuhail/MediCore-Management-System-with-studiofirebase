@@ -33,8 +33,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
-import { cn } from "@/lib/utils";
-import { placeholderImages } from "@/lib/placeholder-images";
+import type { Doctor } from "@/lib/types";
 
 const initialQueue = [
   { id: 1, name: "AB", token: 5 },
@@ -52,6 +51,11 @@ export default function AppointmentsPage() {
   const [queue, setQueue] = useState(initialQueue);
   const [isClient, setIsClient] = useState(false);
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [specialty, setSpecialty] = useState("all");
+  const [availability, setAvailability] = useState("all");
+  const [filteredDoctors, setFilteredDoctors] = useState<Doctor[]>(doctors);
+
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -60,9 +64,10 @@ export default function AppointmentsPage() {
     if (!isClient) return;
     const queueInterval = setInterval(() => {
       setQueue(prevQueue => {
+        if (prevQueue.length === 0) return [];
         const newQueue = [...prevQueue.slice(1)];
         if (newQueue.length > 0) {
-           const lastToken = newQueue[newQueue.length - 1].token;
+           const lastToken = newQueue[newQueue.length - 1]?.token || 0;
            newQueue.push({ id: Math.random(), name: "KL", token: lastToken + 1 });
         }
         return newQueue;
@@ -71,6 +76,23 @@ export default function AppointmentsPage() {
 
     return () => clearInterval(queueInterval);
   }, [isClient]);
+
+  useEffect(() => {
+    let newFilteredDoctors = doctors.filter(doctor =>
+        doctor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        doctor.hospital.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    if (specialty !== "all") {
+        newFilteredDoctors = newFilteredDoctors.filter(doctor => doctor.specialty === specialty);
+    }
+
+    if (availability !== "all") {
+        newFilteredDoctors = newFilteredDoctors.filter(doctor => doctor.availability === availability);
+    }
+
+    setFilteredDoctors(newFilteredDoctors);
+  }, [searchTerm, specialty, availability]);
 
   const handleBookAppointment = (doctorName: string) => {
     const newToken = Math.floor(Math.random() * 100) + 10;
@@ -82,6 +104,8 @@ export default function AppointmentsPage() {
       description: `Your appointment with ${doctorName} is confirmed. Your token is #${newToken}.`,
     });
   };
+  
+  const specialties = [...new Set(doctors.map(d => d.specialty))];
 
   return (
     <div className="space-y-8">
@@ -124,24 +148,28 @@ export default function AppointmentsPage() {
         <Card className="md:col-span-2">
             <CardHeader>
             <div className="flex flex-col gap-4 md:flex-row md:items-center">
-                <Input placeholder="Search by doctor name or hospital..." className="flex-1" />
+                <Input 
+                    placeholder="Search by doctor name or hospital..." 
+                    className="flex-1"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
                 <div className="flex gap-4">
-                <Select>
+                <Select value={specialty} onValueChange={setSpecialty}>
                     <SelectTrigger className="w-full md:w-[180px]">
                     <SelectValue placeholder="All Specialties" />
                     </SelectTrigger>
                     <SelectContent>
-                    <SelectItem value="cardiologist">Cardiologist</SelectItem>
-                    <SelectItem value="neurologist">Neurologist</SelectItem>
-                    <SelectItem value="pediatrician">Pediatrician</SelectItem>
-                    <SelectItem value="orthopedic">Orthopedic</SelectItem>
+                    <SelectItem value="all">All Specialties</SelectItem>
+                    {specialties.map(spec => <SelectItem key={spec} value={spec}>{spec}</SelectItem>)}
                     </SelectContent>
                 </Select>
-                <Select>
+                <Select value={availability} onValueChange={setAvailability}>
                     <SelectTrigger className="w-full md:w-[180px]">
                     <SelectValue placeholder="Availability" />
                     </SelectTrigger>
                     <SelectContent>
+                    <SelectItem value="all">All</SelectItem>
                     <SelectItem value="available">Available</SelectItem>
                     <SelectItem value="unavailable">Unavailable</SelectItem>
                     </SelectContent>
@@ -154,7 +182,7 @@ export default function AppointmentsPage() {
 
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {doctors.map((doctor) => (
+        {filteredDoctors.map((doctor) => (
           <Card key={doctor.id} className="flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
             <CardHeader className="flex-row items-center gap-4">
               <Avatar className="h-16 w-16">
