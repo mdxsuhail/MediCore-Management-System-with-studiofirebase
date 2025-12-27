@@ -82,7 +82,7 @@ export default function PatientManagementPage() {
                     <div className="flex items-center gap-3">
                         <Avatar>
                             <AvatarImage src={patient.avatarUrl} alt={patient.name} />
-                            <AvatarFallback>{patient.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                            <AvatarFallback>{patient.name ? patient.name.split(' ').map(n => n[0]).join('') : 'P'}</AvatarFallback>
                         </Avatar>
                         <div>
                             <p className="font-medium">{patient.name}</p>
@@ -90,7 +90,7 @@ export default function PatientManagementPage() {
                         </div>
                     </div>
                 </TableCell>
-                <TableCell>{new Date(patient.dateJoined).toLocaleDateString()}</TableCell>
+                <TableCell>{patient.dateJoined ? new Date(patient.dateJoined).toLocaleDateString() : 'N/A'}</TableCell>
                 <TableCell>{patient.lastAppointment ? new Date(patient.lastAppointment).toLocaleDateString() : 'N/A'}</TableCell>
                 <TableCell>
                   <Badge variant={patient.status === 'active' ? 'default' : 'destructive'} className="capitalize bg-green-500 text-white">
