@@ -46,10 +46,11 @@ export type MedicalDocument = {
 };
 
 export type BedInfo = {
-  type: 'ICU' | 'General' | 'Ward';
+  type: 'ICU' | 'General' | 'Ward' | 'Private Room' | 'Semi-Private Room';
   total: number;
   occupied: number;
   available: number;
+  features: string[];
 };
 
 export type HospitalBedInfo = {
