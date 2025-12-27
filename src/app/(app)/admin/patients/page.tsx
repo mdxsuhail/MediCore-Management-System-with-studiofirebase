@@ -76,8 +76,8 @@ export default function PatientManagementPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {patients.map((patient) => (
-              <TableRow key={patient.id}>
+            {patients.map((patient, index) => (
+              <TableRow key={`${patient.id}-${index}`}>
                 <TableCell>
                     <div className="flex items-center gap-3">
                         <Avatar>
