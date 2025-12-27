@@ -1,3 +1,4 @@
+"use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -14,8 +15,25 @@ import { placeholderImages } from "@/lib/placeholder-images";
 import Link from "next/link";
 import { ThemeToggle } from "./theme-toggle";
 import { CreditCard, LogOut, Settings, User } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export function UserNav() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+       <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+          <Avatar className="h-9 w-9">
+            <AvatarFallback>JD</AvatarFallback>
+          </Avatar>
+        </Button>
+    );
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
