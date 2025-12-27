@@ -53,7 +53,7 @@ const adminNav = [
   { href: '#', label: 'Doctors', icon: Stethoscope },
   { href: '#', label: 'Patients', icon: Users },
   { href: '#', label: 'Beds', icon: Hospital },
-  { href: '/admin/ambulances', label: 'Ambulances', icon: Ambulance },
+  { href: '/admin/ambulances', label: 'Live Ambulances', icon: Map },
 ];
 
 
