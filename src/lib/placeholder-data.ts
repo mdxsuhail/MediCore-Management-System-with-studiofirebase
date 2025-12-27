@@ -232,7 +232,7 @@ export const medications: Medication[] = [
     { id: '4', name: 'Amoxicillin', dosage: '250mg', frequency: 'Three times a day', status: 'inactive', refillsRemaining: 0 },
 ];
 
-export const bedAvailability: Omit<BedInfo, 'features'>[] = [
+export const bedAvailability: Omit<BedInfo, 'features' | 'price'>[] = [
     { type: 'ICU', total: 20, occupied: 18, available: 2 },
     { type: 'General', total: 150, occupied: 125, available: 25 },
     { type: 'Ward', total: 50, occupied: 40, available: 10 },
@@ -242,26 +242,26 @@ export const hospitalBedAvailability: HospitalBedInfo[] = [
     {
       hospitalName: 'Unity General Hospital',
       beds: [
-        { type: 'ICU', total: 20, occupied: 18, available: 2, features: ['24/7 Monitoring', 'Ventilator Support', 'High-dependency care'] },
-        { type: 'Private Room', total: 30, occupied: 25, available: 5, features: ['Private room', 'Attached bathroom', 'TV & WiFi'] },
-        { type: 'General', total: 150, occupied: 125, available: 25, features: ['Shared room (2-4 beds)', 'Shared bathroom'] },
+        { type: 'ICU', total: 20, occupied: 18, available: 2, features: ['24/7 Monitoring', 'Ventilator Support', 'High-dependency care'], price: 800 },
+        { type: 'Private Room', total: 30, occupied: 25, available: 5, features: ['Private room', 'Attached bathroom', 'TV & WiFi'], price: 400 },
+        { type: 'General', total: 150, occupied: 125, available: 25, features: ['Shared room (2-4 beds)', 'Shared bathroom'], price: 200 },
       ],
     },
     {
       hospitalName: 'City Central Hospital',
       beds: [
-        { type: 'ICU', total: 25, occupied: 22, available: 3, features: ['24/7 Monitoring', 'Advanced life support', 'Isolation capabilities'] },
-        { type: 'Private Room', total: 50, occupied: 48, available: 2, features: ['Private room', 'Ensuite bathroom', 'Guest seating area', 'TV & WiFi'] },
-        { type: 'Semi-Private Room', total: 80, occupied: 70, available: 10, features: ['Shared room (2 beds)', 'Shared bathroom', 'Privacy curtain'] },
-        { type: 'General', total: 200, occupied: 180, available: 20, features: ['Shared room (4+ beds)', 'Communal bathroom'] },
+        { type: 'ICU', total: 25, occupied: 22, available: 3, features: ['24/7 Monitoring', 'Advanced life support', 'Isolation capabilities'], price: 950 },
+        { type: 'Private Room', total: 50, occupied: 48, available: 2, features: ['Private room', 'Ensuite bathroom', 'Guest seating area', 'TV & WiFi'], price: 550 },
+        { type: 'Semi-Private Room', total: 80, occupied: 70, available: 10, features: ['Shared room (2 beds)', 'Shared bathroom', 'Privacy curtain'], price: 350 },
+        { type: 'General', total: 200, occupied: 180, available: 20, features: ['Shared room (4+ beds)', 'Communal bathroom'], price: 250 },
       ],
     },
     {
         hospitalName: 'St. Jude Children\'s Hospital',
         beds: [
-          { type: 'ICU', total: 30, occupied: 25, available: 5, features: ['Pediatric ICU specialists', 'Parent accommodation', 'Advanced monitoring'] },
-          { type: 'Private Room', total: 60, occupied: 50, available: 10, features: ['Child-friendly decor', 'Parent bed included', 'Private bathroom', 'Entertainment system'] },
-          { type: 'Ward', total: 40, occupied: 30, available: 10, features: ['Shared with 1-2 other children', 'Play area access'] },
+          { type: 'ICU', total: 30, occupied: 25, available: 5, features: ['Pediatric ICU specialists', 'Parent accommodation', 'Advanced monitoring'], price: 1200 },
+          { type: 'Private Room', total: 60, occupied: 50, available: 10, features: ['Child-friendly decor', 'Parent bed included', 'Private bathroom', 'Entertainment system'], price: 600 },
+          { type: 'Ward', total: 40, occupied: 30, available: 10, features: ['Shared with 1-2 other children', 'Play area access'], price: 300 },
         ],
       },
   ];

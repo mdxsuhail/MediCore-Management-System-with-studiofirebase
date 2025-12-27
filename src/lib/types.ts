@@ -51,6 +51,7 @@ export type BedInfo = {
   occupied: number;
   available: number;
   features: string[];
+  price: number;
 };
 
 export type HospitalBedInfo = {
