@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -48,7 +49,19 @@ export default function SignupPage() {
       title: "Account Created",
       description: "Redirecting to your dashboard...",
     });
-    router.push("/dashboard");
+    
+    switch (values.role) {
+      case "doctor":
+        router.push("/doctor");
+        break;
+      case "admin":
+        router.push("/admin");
+        break;
+      case "patient":
+      default:
+        router.push("/dashboard");
+        break;
+    }
   }
 
   return (

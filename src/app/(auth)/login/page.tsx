@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -18,10 +19,15 @@ import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { Logo } from "@/components/logo";
+import { useState } from "react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email." }),
   password: z.string().min(1, { message: "Password is required." }),
+  role: z.enum(["patient", "doctor", "admin"], {
+    required_error: "You need to select a role.",
+  }),
 });
 
 export default function LoginPage() {
@@ -33,6 +39,7 @@ export default function LoginPage() {
     defaultValues: {
       email: "",
       password: "",
+      role: "patient",
     },
   });
 
@@ -43,7 +50,19 @@ export default function LoginPage() {
       title: "Login Successful",
       description: "Redirecting to your dashboard...",
     });
-    router.push("/dashboard");
+
+    switch (values.role) {
+      case "doctor":
+        router.push("/doctor");
+        break;
+      case "admin":
+        router.push("/admin");
+        break;
+      case "patient":
+      default:
+        router.push("/dashboard");
+        break;
+    }
   }
 
   return (
@@ -56,7 +75,7 @@ export default function LoginPage() {
           Welcome Back
         </h1>
         <p className="text-sm text-muted-foreground">
-          Enter your email and password to access your account
+          Enter your details to access your account
         </p>
       </div>
       <Form {...form}>
@@ -82,6 +101,42 @@ export default function LoginPage() {
                 <FormLabel>Password</FormLabel>
                 <FormControl>
                   <Input type="password" placeholder="••••••••" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="role"
+            render={({ field }) => (
+              <FormItem className="space-y-3">
+                <FormLabel>Sign in as a...</FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    className="flex space-x-4"
+                  >
+                    <FormItem className="flex items-center space-x-2 space-y-0">
+                      <FormControl>
+                        <RadioGroupItem value="patient" />
+                      </FormControl>
+                      <FormLabel className="font-normal">Patient</FormLabel>
+                    </FormItem>
+                    <FormItem className="flex items-center space-x-2 space-y-0">
+                      <FormControl>
+                        <RadioGroupItem value="doctor" />
+                      </FormControl>
+                      <FormLabel className="font-normal">Doctor</FormLabel>
+                    </FormItem>
+                    <FormItem className="flex items-center space-x-2 space-y-0">
+                      <FormControl>
+                        <RadioGroupItem value="admin" />
+                      </FormControl>
+                      <FormLabel className="font-normal">Admin</FormLabel>
+                    </FormItem>
+                  </RadioGroup>
                 </FormControl>
                 <FormMessage />
               </FormItem>
