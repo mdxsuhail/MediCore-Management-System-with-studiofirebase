@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { medicalDocuments as initialMedicalDocuments } from "@/lib/placeholder-data";
-import { Download, MoreHorizontal, PlusCircle, Upload, Trash2 } from "lucide-react";
+import { Download, MoreHorizontal, Upload, Trash2 } from "lucide-react";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -80,7 +80,7 @@ export default function DocumentsPage() {
 
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between">
+      <CardHeader className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
           <CardTitle>Medical Documents</CardTitle>
           <CardDescription>
@@ -105,7 +105,7 @@ export default function DocumentsPage() {
             <TableRow>
               <TableHead>Document Name</TableHead>
               <TableHead>Type</TableHead>
-              <TableHead>Upload Date</TableHead>
+              <TableHead>Upload Date & Time</TableHead>
               <TableHead>
                 <span className="sr-only">Actions</span>
               </TableHead>
@@ -118,8 +118,11 @@ export default function DocumentsPage() {
                 <TableCell>
                   <Badge variant="outline" className="capitalize">{doc.type}</Badge>
                 </TableCell>
-                <TableCell>{new Date(doc.uploadDate).toLocaleDateString()}</TableCell>
                 <TableCell>
+                  {new Date(doc.uploadDate).toLocaleDateString([], { year: 'numeric', month: 'long', day: 'numeric' })}{' '}
+                  {new Date(doc.uploadDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </TableCell>
+                <TableCell className="text-right">
                   <AlertDialog>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
@@ -135,7 +138,7 @@ export default function DocumentsPage() {
                           Download
                           </DropdownMenuItem>
                         <AlertDialogTrigger asChild>
-                          <DropdownMenuItem className="text-destructive">
+                          <DropdownMenuItem className="text-destructive focus:text-destructive" onSelect={(e) => e.preventDefault()}>
                             <Trash2 className="mr-2 h-4 w-4" />
                             Delete
                           </DropdownMenuItem>

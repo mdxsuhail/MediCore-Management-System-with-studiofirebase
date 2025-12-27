@@ -220,7 +220,9 @@ export default function DashboardPage() {
                         <FileText className="h-5 w-5 text-muted-foreground" />
                         <div className="grid gap-1">
                             <p className="text-sm font-medium">{doc.name}</p>
-                            <p className="text-xs text-muted-foreground">Uploaded on {new Date(doc.uploadDate).toLocaleDateString()}</p>
+                            <p className="text-xs text-muted-foreground">
+                                Uploaded on {new Date(doc.uploadDate).toLocaleDateString()} at {new Date(doc.uploadDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            </p>
                         </div>
                     </div>
                     <Badge variant={doc.type === 'prescription' ? 'default' : 'secondary'} className="capitalize">{doc.type}</Badge>
