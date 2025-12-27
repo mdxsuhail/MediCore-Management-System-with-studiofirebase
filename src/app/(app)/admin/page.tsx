@@ -23,7 +23,7 @@ import {
   import { Badge } from "@/components/ui/badge";
   import { Progress } from "@/components/ui/progress";
   import { bedAvailability, doctors, ambulanceAvailability } from "@/lib/placeholder-data";
-  import { BarChart, Bed, Hospital, Stethoscope, Users, Ambulance as AmbulanceIcon, Map } from "lucide-react";
+  import { BarChart, Bed, Hospital, Stethoscope, Users, Ambulance as AmbulanceIcon, Map, ArrowRight } from "lucide-react";
   import { ChartContainer, ChartTooltip, ChartTooltipContent, Bar as BarChartComponent, BarChart as RechartsBarChart } from "@/components/ui/chart";
   import Link from "next/link";
   import { Button } from "@/components/ui/button";
@@ -113,7 +113,14 @@ import {
             </TabsList>
             <TabsContent value="beds">
                 <Card>
-                    <CardHeader><CardTitle>Bed Availability</CardTitle></CardHeader>
+                    <CardHeader className="flex-row justify-between items-center">
+                        <CardTitle>Bed Availability</CardTitle>
+                        <Button asChild variant="outline">
+                            <Link href="/admin/beds">
+                                Manage Beds <ArrowRight className="ml-2 h-4 w-4" />
+                            </Link>
+                        </Button>
+                    </CardHeader>
                     <CardContent className="space-y-6">
                         {bedAvailability.map(bedInfo => (
                             <div key={bedInfo.type} className="space-y-2">
@@ -169,7 +176,14 @@ import {
             </TabsContent>
             <TabsContent value="doctors">
                 <Card>
-                    <CardHeader><CardTitle>Doctor Roster</CardTitle></CardHeader>
+                    <CardHeader className="flex-row justify-between items-center">
+                        <CardTitle>Doctor Roster</CardTitle>
+                        <Button asChild variant="outline">
+                            <Link href="/admin/doctors">
+                                Manage Doctors <ArrowRight className="ml-2 h-4 w-4" />
+                            </Link>
+                        </Button>
+                    </CardHeader>
                     <CardContent>
                         <Table>
                             <TableHeader>
@@ -181,7 +195,7 @@ import {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {doctors.map(doctor => (
+                                {doctors.slice(0, 5).map(doctor => (
                                 <TableRow key={doctor.id}>
                                     <TableCell className="font-medium">{doctor.name}</TableCell>
                                     <TableCell>{doctor.specialty}</TableCell>

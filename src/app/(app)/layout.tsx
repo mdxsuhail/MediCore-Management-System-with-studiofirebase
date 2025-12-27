@@ -52,9 +52,9 @@ const doctorNav = [
 
 const adminNav = [
   { href: '/admin', label: 'Dashboard', icon: BarChart },
-  { href: '#', label: 'Doctors', icon: Stethoscope },
-  { href: '#', label: 'Patients', icon: Users },
-  { href: '#', label: 'Beds', icon: Hospital },
+  { href: '/admin/doctors', label: 'Doctors', icon: Stethoscope },
+  { href: '/admin/patients', label: 'Patients', icon: Users },
+  { href: '/admin/beds', label: 'Beds', icon: BedDouble },
   { href: '/admin/ambulances', label: 'Live Ambulances', icon: Map },
 ];
 
@@ -71,16 +71,22 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   switch (role) {
     case 'doctor':
       navItems = doctorNav;
-      breadcrumb = [{ label: "Doctor" }, { label: "Dashboard" }];
-      if (pathname.includes("consultation")) {
-          breadcrumb = [{ label: "Doctor" }, { label: "Consultation Tool" }];
+      breadcrumb = [{ label: "Doctor" }];
+      const doctorCurrentPage = doctorNav.find(item => item.href === pathname);
+      if (doctorCurrentPage) {
+        breadcrumb.push({ label: doctorCurrentPage.label, href: doctorCurrentPage.href });
+      } else if (pathname !== '/doctor') {
+        const pageTitle = pathname.split('/').pop()?.replace('-', ' ');
+        breadcrumb.push({ label: pageTitle ? pageTitle.charAt(0).toUpperCase() + pageTitle.slice(1) : 'Dashboard' });
+      } else {
+        breadcrumb.push({ label: 'Dashboard' });
       }
       break;
     case 'admin':
       navItems = adminNav;
       breadcrumb = [{ label: "Admin" }];
       const adminCurrentPage = adminNav.find(item => item.href === pathname);
-      if (adminCurrentPage) {
+      if (adminCurrentPage && adminCurrentPage.href !== '/admin') {
         breadcrumb.push({ label: adminCurrentPage.label, href: adminCurrentPage.href });
       } else if (pathname !== '/admin') {
         const pageTitle = pathname.split('/').pop()?.replace('-', ' ');
@@ -122,7 +128,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               <SidebarMenuItem key={item.label}>
                 <SidebarMenuButton
                   href={item.href}
-                  isActive={pathname === item.href}
+                  isActive={pathname.startsWith(item.href) && (item.href !== '/admin' || pathname === '/admin')}
                   tooltip={item.label}
                   asChild
                 >
