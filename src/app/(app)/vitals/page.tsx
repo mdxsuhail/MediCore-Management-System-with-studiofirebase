@@ -32,7 +32,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 
-const vitalIcons = {
+const vitalIcons: { [key: string]: React.ReactNode } = {
   'Blood Pressure': <HeartPulse className="h-8 w-8 text-primary" />,
   'Blood Glucose': <Thermometer className="h-8 w-8 text-primary" />,
   BMI: <Weight className="h-8 w-8 text-primary" />,
