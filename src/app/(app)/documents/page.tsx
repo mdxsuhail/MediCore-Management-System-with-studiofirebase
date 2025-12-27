@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {
   Card,
   CardContent,
@@ -40,10 +40,12 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
+import type { MedicalDocument } from "@/lib/types";
 
 export default function DocumentsPage() {
-  const [documents, setDocuments] = useState(initialMedicalDocuments);
+  const [documents, setDocuments] = useState<MedicalDocument[]>(initialMedicalDocuments);
   const { toast } = useToast();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleDelete = (docId: string) => {
     setDocuments(documents.filter(doc => doc.id !== docId));
@@ -54,11 +56,26 @@ export default function DocumentsPage() {
     });
   };
 
-  const handleUpload = () => {
-    toast({
-      title: "Feature Coming Soon!",
-      description: "File upload functionality is not yet implemented.",
-    });
+  const handleUploadClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const newDocument: MedicalDocument = {
+        id: (documents.length + 1).toString(),
+        name: file.name,
+        type: 'report', // Defaulting to report, could be made selectable
+        uploadDate: new Date().toISOString(),
+        url: '#',
+      };
+      setDocuments(prevDocs => [newDocument, ...prevDocs]);
+      toast({
+        title: "Upload Successful",
+        description: `"${file.name}" has been added to your documents.`,
+      });
+    }
   };
 
   return (
@@ -70,10 +87,17 @@ export default function DocumentsPage() {
             Manage your prescriptions, reports, and invoices.
           </CardDescription>
         </div>
-        <Button onClick={handleUpload}>
+        <Button onClick={handleUploadClick}>
           <Upload className="mr-2 h-4 w-4" />
           Upload Document
         </Button>
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleFileChange}
+          className="hidden"
+          accept="application/pdf"
+        />
       </CardHeader>
       <CardContent>
         <Table>
